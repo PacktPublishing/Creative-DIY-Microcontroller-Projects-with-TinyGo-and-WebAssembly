@@ -3,38 +3,12 @@ package main
 import "errors"
 
 func main() {
-	result, err := FizzBuzz(15)
+	result, err := FizzBuzz(4)
 	if err != nil {
 		println(err.Error())
 	}
 
 	println(result)
-
-	result, err = FizzBuzz(3)
-	if err != nil {
-		println(err.Error())
-	}
-
-	println(result)
-
-	result, err = FizzBuzz(5)
-	if err != nil {
-		println(err.Error())
-	}
-
-	println(result)
-
-	result, err = FizzBuzz(4)
-	if err != nil {
-		println(err.Error())
-	}
-
-	println(result)
-
-	_, err = FizzBuzz(-15)
-	if err != nil {
-		println(err.Error())
-	}
 }
 
 func FizzBuzz(number int) (string, error) {
