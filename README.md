@@ -15,3 +15,9 @@ Programming Microcontrollers and WebAssembly with TinyGo, published by Packt
 [VSCode Go Extension](https://marketplace.visualstudio.com/items?itemName=golang.go)
 
 [VSCode TinyGo Extension](https://marketplace.visualstudio.com/items?itemName=tinygo.vscode-tinygo)
+
+## Required Hardware
+
+[Arduino UNO](https://store.arduino.cc/arduino-uno-rev3)
+
+[Arduino Nano IoT 33](https://store.arduino.cc/arduino-nano-33-iot-with-headers)
