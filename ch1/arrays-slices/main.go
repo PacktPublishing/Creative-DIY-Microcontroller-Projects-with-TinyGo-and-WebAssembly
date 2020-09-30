@@ -1,15 +1,19 @@
 package main
 
 func main() {
-	names := []string{"Alice", "Bob", "Charlie", "Denise"}
+	names := [4]string{"Alice", "Bob", "Charlie", "Denise"}
 
 	for index, name := range names {
 		println("index:", index, "name:", name)
 	}
 
-	names = append(names, "Nerzal")
+	namesSlice := []string{"Nerzal"}
 
-	for index, name := range names {
+	for _, name := range names {
+		namesSlice = append(namesSlice, name)
+	}
+
+	for index, name := range namesSlice {
 		println("index:", index, "name:", name)
 	}
 }
