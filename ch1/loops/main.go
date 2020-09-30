@@ -1,8 +1,8 @@
 package main
 
 func main() {
-	for i := 0; i <= 100; i++ {
-		println(i)
+	for index := 0; index <= 100; index++ {
+		println(index)
 	}
 
 	count := 10000
@@ -13,5 +13,4 @@ func main() {
 		count--
 	}
 	println("count to 0 successfully")
-
 }
