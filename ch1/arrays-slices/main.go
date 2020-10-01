@@ -7,7 +7,7 @@ func main() {
 		println("index:", index, "name:", name)
 	}
 
-	namesSlice := []string{"Nerzal"}
+	namesSlice := []string{"Emilia"}
 
 	for _, name := range names {
 		namesSlice = append(namesSlice, name)
