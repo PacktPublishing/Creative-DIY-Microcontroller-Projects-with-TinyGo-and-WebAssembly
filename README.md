@@ -8,6 +8,14 @@ Programming Microcontrollers and WebAssembly with TinyGo, published by Packt
 
 [Go](https://golang.org/)
 
+### Windows
+
+#### AVR Toolchain
+
+[Toolchain](https://www.microchip.com/mplab/avr-support/avr-and-arm-toolchains-c-compilers)
+[AVR Dude](http://download.savannah.gnu.org/releases/avrdude/)
+[GNU Make](http://gnuwin32.sourceforge.net/packages/make.htm)
+
 ## Recommended Software
 
 [VSCode](https://code.visualstudio.com/)
