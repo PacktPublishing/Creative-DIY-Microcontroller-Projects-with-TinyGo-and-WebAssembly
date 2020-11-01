@@ -12,7 +12,7 @@ func main() {
 	for {
 		blink3(led, 500, 350)
 
-		blink3(led, 3000, 350)
+		blink3(led, 1500, 350)
 
 		blink3(led, 500, 350)
 	}
