@@ -25,17 +25,17 @@ func main() {
 
 	pedestrianGreen := machine.D4
 	pedestrianGreen.Configure(outputConfig)
-	pedestrianRED := machine.D5
-	pedestrianRED.Configure(outputConfig)
+	pedestrianRed := machine.D5
+	pedestrianRed.Configure(outputConfig)
 
 	inputConfig := machine.PinConfig{Mode: machine.PinInput}
 	buttonInput := machine.D2
 	buttonInput.Configure(inputConfig)
 
-	pedestrianRED.High()
+	pedestrianRed.High()
 	pedestrianGreen.Low()
 
-	go trafficLights(redLED, greenLED, yellowLED, pedestrianRED, pedestrianGreen)
+	go trafficLights(redLED, greenLED, yellowLED, pedestrianRed, pedestrianGreen)
 
 	for {
 		if buttonInput.Get() {
