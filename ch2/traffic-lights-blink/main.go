@@ -55,10 +55,13 @@ func trafficLights(redLED, greenLED, yellowLED, pedestrianRED, pedestrianGreen m
 			pedestrianRED.Low()
 
 			yellowLED.High()
-			time.Sleep(400 * time.Millisecond)
+			time.Sleep(350 * time.Millisecond)
 			yellowLED.Low()
+			time.Sleep(350 * time.Millisecond)
 
 			continue
+		} else {
+			pedestrianRED.High()
 		}
 
 		redLED.High()
