@@ -2,7 +2,16 @@ package main
 
 import (
 	"machine"
+	"time"
 )
+
+// Left
+const pos0DutyCycle = 1500 * time.Microsecond
+const pos0RemainingPeriod = 18500 * time.Microsecond
+
+// Right
+const pos2DutyCycle = 2000 * time.Microsecond
+const pos2RemainingPeriod = 18000 * time.Microsecond
 
 var inputEnabled = true
 var lastColumn = -1
@@ -10,17 +19,59 @@ var lastRow = -1
 var columns []machine.Pin
 var rows []machine.Pin
 var mapping [4][4]string
+var servoPosition = 0
 
 func main() {
 	initialize()
 
+	machine.InitPWM()
+	servoPin := machine.PWM{Pin: machine.D11}
+	servoPin.Configure()
+
+	const password = "133742"
+	enteredPassword := ""
+
 	for {
 		rowIndex, columnIndex := getIndices()
 		if rowIndex != -1 && columnIndex != -1 {
-			println("RowIndex: ", rowIndex, " ColumnIndex: ", columnIndex)
-
 			println("Button: ", mapping[columnIndex][rowIndex])
+
+			enteredPassword += mapping[columnIndex][rowIndex]
 		}
+
+		if len(enteredPassword) == len(password) {
+			if password == enteredPassword {
+				println("Success")
+				enteredPassword = ""
+				close(servoPin)
+			} else {
+				println("Fail")
+				println("Entered Password: ", enteredPassword)
+				enteredPassword = ""
+			}
+		}
+
+		time.Sleep(50 * time.Millisecond)
+	}
+}
+
+func open(servoPin machine.PWM) {
+	for servoPosition = 0; servoPosition >= 1; servoPosition-- {
+		servoPin.Pin.High()
+		time.Sleep(pos2DutyCycle)
+		servoPin.Pin.Low()
+		time.Sleep(pos2RemainingPeriod)
+
+		time.Sleep(100 * time.Millisecond)
+	}
+}
+
+func close(servoPin machine.PWM) {
+	for servoPosition = 0; servoPosition < 180; servoPosition++ {
+		servoPin.Pin.High()
+		time.Sleep(pos0DutyCycle)
+		servoPin.Pin.Low()
+		time.Sleep(pos0RemainingPeriod)
 	}
 }
 

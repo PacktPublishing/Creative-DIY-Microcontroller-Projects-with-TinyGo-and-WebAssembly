@@ -20,36 +20,40 @@ const pos1RemainingPeriod = 19000 * time.Microsecond
 const pos2DutyCycle = 2000 * time.Microsecond
 const pos2RemainingPeriod = 18000 * time.Microsecond
 
+var position = 0
+
 func main() {
 	machine.InitPWM()
 
 	servoPin := machine.PWM{Pin: machine.D3}
 	servoPin.Configure()
 
-	position := 0
+	close(servoPin)
 
 	time.Sleep(time.Second)
 
-	for {
-		for position = 0; position < 180; position++ {
-			servoPin.Pin.High()
-			time.Sleep(pos0DutyCycle)
-			servoPin.Pin.Low()
-			time.Sleep(pos0RemainingPeriod)
+	open(servoPin)
 
-			time.Sleep(100 * time.Millisecond)
-		}
+}
 
-		time.Sleep(time.Second)
+func open(servoPin machine.PWM) {
+	for position = 0; position >= 1; position-- {
+		servoPin.Pin.High()
+		time.Sleep(pos2DutyCycle)
+		servoPin.Pin.Low()
+		time.Sleep(pos2RemainingPeriod)
 
-		for position = 0; position >= 1; position-- {
-			servoPin.Pin.High()
-			time.Sleep(pos2DutyCycle)
-			servoPin.Pin.Low()
-			time.Sleep(pos2RemainingPeriod)
+		time.Sleep(100 * time.Millisecond)
+	}
+}
 
-			time.Sleep(100 * time.Millisecond)
-		}
-		return
+func close(servoPin machine.PWM) {
+	for position = 0; position < 180; position++ {
+		servoPin.Pin.High()
+		time.Sleep(pos0DutyCycle)
+		servoPin.Pin.Low()
+		time.Sleep(pos0RemainingPeriod)
+
+		time.Sleep(100 * time.Millisecond)
 	}
 }

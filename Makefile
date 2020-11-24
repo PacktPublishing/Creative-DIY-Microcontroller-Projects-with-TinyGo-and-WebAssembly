@@ -6,3 +6,6 @@ writing-to-serial:
 
 controlling-keypad: 
 	tinygo flash --target=arduino ch3/controlling-keypad/main.go
+
+safety-lock-keypad: 
+	tinygo flash --target=arduino ch3/safety-lock-keypad/main.go
