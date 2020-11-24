@@ -18,7 +18,7 @@ var mapping [4][4]string
 var servoPosition = 0
 
 func main() {
-	initialize()
+	initializeKeypad()
 
 	machine.InitPWM()
 	servoPin := machine.PWM{Pin: machine.D11}
@@ -60,7 +60,7 @@ func close(servoPin machine.PWM) {
 	}
 }
 
-func initialize() {
+func initializeKeypad() {
 	inputConfig := machine.PinConfig{Mode: machine.PinInputPullup}
 	c4 := machine.D2
 	c4.Configure(inputConfig)

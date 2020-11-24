@@ -12,7 +12,7 @@ var rows []machine.Pin
 var mapping [4][4]string
 
 func main() {
-	initialize()
+	initializeKeypad()
 
 	for {
 		rowIndex, columnIndex := getIndices()
@@ -24,7 +24,7 @@ func main() {
 	}
 }
 
-func initialize() {
+func initializeKeypad() {
 	inputConfig := machine.PinConfig{Mode: machine.PinInputPullup}
 	c4 := machine.D2
 	c4.Configure(inputConfig)
