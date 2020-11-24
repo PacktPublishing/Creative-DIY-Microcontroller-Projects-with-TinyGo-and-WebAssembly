@@ -9,10 +9,6 @@ import (
 const pos0DutyCycle = 1500 * time.Microsecond
 const pos0RemainingPeriod = 18500 * time.Microsecond
 
-// Right
-const pos2DutyCycle = 2000 * time.Microsecond
-const pos2RemainingPeriod = 18000 * time.Microsecond
-
 var inputEnabled = true
 var lastColumn = -1
 var lastRow = -1
@@ -52,17 +48,6 @@ func main() {
 		}
 
 		time.Sleep(50 * time.Millisecond)
-	}
-}
-
-func open(servoPin machine.PWM) {
-	for servoPosition = 0; servoPosition >= 1; servoPosition-- {
-		servoPin.Pin.High()
-		time.Sleep(pos2DutyCycle)
-		servoPin.Pin.Low()
-		time.Sleep(pos2RemainingPeriod)
-
-		time.Sleep(100 * time.Millisecond)
 	}
 }
 
