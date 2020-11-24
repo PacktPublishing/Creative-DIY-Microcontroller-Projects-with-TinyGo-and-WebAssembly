@@ -3,3 +3,6 @@ hello-world-of-things:
 
 writing-to-serial: 
 	tinygo flash --target=arduino ch3/writing-to-serial/main.go
+
+controlling-keypad: 
+	tinygo flash --target=arduino ch3/controlling-keypad/main.go
