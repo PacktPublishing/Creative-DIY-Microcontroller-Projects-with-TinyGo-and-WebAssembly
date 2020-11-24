@@ -9,9 +9,20 @@ var lastColumn = -1
 var lastRow = -1
 var columns []machine.Pin
 var rows []machine.Pin
+var mapping [4][4]string
 
 func main() {
+	for {
+		rowIndex, columnIndex := getIndices()
+		if rowIndex != -1 && columnIndex != -1 {
+			println("RowIndex: ", rowIndex, " ColumnIndex: ", columnIndex)
 
+			println("Button: ", mapping[columnIndex][rowIndex])
+		}
+	}
+}
+
+func initialize() {
 	inputConfig := machine.PinConfig{Mode: machine.PinInputPullup}
 	c4 := machine.D2
 	c4.Configure(inputConfig)
@@ -41,21 +52,13 @@ func main() {
 
 	rows = []machine.Pin{r4, r3, r2, r1}
 
-	mapping := [4][4]string{
+	mapping = [4][4]string{
 		{"1", "2", "3", "A"},
 		{"4", "5", "6", "B"},
 		{"7", "8", "9", "C"},
 		{"*", "0", "#", "D"},
 	}
 
-	for {
-		rowIndex, columnIndex := getIndices()
-		if rowIndex != -1 && columnIndex != -1 {
-			println("RowIndex: ", rowIndex, " ColumnIndex: ", columnIndex)
-
-			println("Button: ", mapping[columnIndex][rowIndex])
-		}
-	}
 }
 
 func getIndices() (int, int) {
