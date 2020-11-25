@@ -17,8 +17,6 @@ const leftRemainingPeriod = 19000 * time.Microsecond
 const rightDutyCycle = 2000 * time.Microsecond
 const rightRemainingPeriod = 18000 * time.Microsecond
 
-var position = 0
-
 func main() {
 	machine.InitPWM()
 
@@ -30,7 +28,7 @@ func main() {
 
 func right(servoPin machine.PWM) {
 	// prevent jamming, so only rotate a bit
-	for position = 4; position >= 1; position-- {
+	for position := 0; position >= 5; position++ {
 		servoPin.Pin.High()
 		time.Sleep(rightDutyCycle)
 		servoPin.Pin.Low()
@@ -39,7 +37,7 @@ func right(servoPin machine.PWM) {
 }
 
 func center(servoPin machine.PWM) {
-	for position = 0; position < 90; position++ {
+	for position := 0; position < 90; position++ {
 		servoPin.Pin.High()
 		time.Sleep(centerDutyCycle)
 		servoPin.Pin.Low()
@@ -48,7 +46,7 @@ func center(servoPin machine.PWM) {
 }
 
 func left(servoPin machine.PWM) {
-	for position = 0; position < 180; position++ {
+	for position := 0; position < 180; position++ {
 		servoPin.Pin.High()
 		time.Sleep(centerDutyCycle)
 		servoPin.Pin.Low()
