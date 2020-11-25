@@ -1,9 +1,12 @@
 package main
 
-import "time"
+import (
+	"time"
+)
 
 func main() {
-	println("starting program")
+	print("starting ")
+	print("program\n")
 
 	for {
 		println("Hello World")

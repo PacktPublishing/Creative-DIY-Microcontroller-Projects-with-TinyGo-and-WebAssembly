@@ -2,58 +2,56 @@ package main
 
 import (
 	"machine"
-	"math"
 	"time"
 )
 
-const twoPi = float32(2 * math.Pi)
+// center
+const centerDutyCycle = 1500 * time.Microsecond
+const centerRemainingPeriod = 18500 * time.Microsecond
 
-// Left
-const pos0DutyCycle = 1500 * time.Microsecond
-const pos0RemainingPeriod = 18500 * time.Microsecond
+// left
+const leftDutyCycle = 1000 * time.Microsecond
+const leftRemainingPeriod = 19000 * time.Microsecond
 
-// Middle
-const pos1DutyCycle = 1000 * time.Microsecond
-const pos1RemainingPeriod = 19000 * time.Microsecond
-
-// Right
-const pos2DutyCycle = 2000 * time.Microsecond
-const pos2RemainingPeriod = 18000 * time.Microsecond
+// right
+const rightDutyCycle = 2000 * time.Microsecond
+const rightRemainingPeriod = 18000 * time.Microsecond
 
 var position = 0
 
 func main() {
 	machine.InitPWM()
 
-	servoPin := machine.PWM{Pin: machine.D3}
+	servoPin := machine.PWM{Pin: machine.D11}
 	servoPin.Configure()
 
-	close(servoPin)
-
-	time.Sleep(time.Second)
-
-	open(servoPin)
-
+	right(servoPin)
 }
 
-func open(servoPin machine.PWM) {
-	for position = 0; position >= 1; position-- {
+func right(servoPin machine.PWM) {
+	// prevent jamming, so only rotate a bit
+	for position = 4; position >= 1; position-- {
 		servoPin.Pin.High()
-		time.Sleep(pos2DutyCycle)
+		time.Sleep(rightDutyCycle)
 		servoPin.Pin.Low()
-		time.Sleep(pos2RemainingPeriod)
-
-		time.Sleep(100 * time.Millisecond)
+		time.Sleep(rightRemainingPeriod)
 	}
 }
 
-func close(servoPin machine.PWM) {
+func center(servoPin machine.PWM) {
+	for position = 0; position < 90; position++ {
+		servoPin.Pin.High()
+		time.Sleep(centerDutyCycle)
+		servoPin.Pin.Low()
+		time.Sleep(centerRemainingPeriod)
+	}
+}
+
+func left(servoPin machine.PWM) {
 	for position = 0; position < 180; position++ {
 		servoPin.Pin.High()
-		time.Sleep(pos0DutyCycle)
+		time.Sleep(centerDutyCycle)
 		servoPin.Pin.Low()
-		time.Sleep(pos0RemainingPeriod)
-
-		time.Sleep(100 * time.Millisecond)
+		time.Sleep(centerRemainingPeriod)
 	}
 }

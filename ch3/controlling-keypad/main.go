@@ -7,8 +7,8 @@ import (
 var inputEnabled = true
 var lastColumn = -1
 var lastRow = -1
-var columns []machine.Pin
-var rows []machine.Pin
+var columns [4]machine.Pin
+var rows [4]machine.Pin
 var mapping [4][4]string
 
 func main() {
@@ -17,8 +17,6 @@ func main() {
 	for {
 		rowIndex, columnIndex := getIndices()
 		if rowIndex != -1 && columnIndex != -1 {
-			println("RowIndex: ", rowIndex, " ColumnIndex: ", columnIndex)
-
 			println("Button: ", mapping[columnIndex][rowIndex])
 		}
 	}
@@ -35,7 +33,7 @@ func initializeKeypad() {
 	c1 := machine.D5
 	c1.Configure(inputConfig)
 
-	columns = []machine.Pin{c4, c3, c2, c1}
+	columns = [4]machine.Pin{c4, c3, c2, c1}
 
 	outputConfig := machine.PinConfig{Mode: machine.PinOutput}
 	r4 := machine.D6
@@ -52,7 +50,7 @@ func initializeKeypad() {
 	r2.High()
 	r1.High()
 
-	rows = []machine.Pin{r4, r3, r2, r1}
+	rows = [4]machine.Pin{r4, r3, r2, r1}
 
 	mapping = [4][4]string{
 		{"1", "2", "3", "A"},
