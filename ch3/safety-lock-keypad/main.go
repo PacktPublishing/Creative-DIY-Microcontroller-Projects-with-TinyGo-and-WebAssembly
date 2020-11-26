@@ -12,7 +12,7 @@ func main() {
 	keypadDriver := keypad.Driver{}
 	keypadDriver.Configure(machine.D2, machine.D3, machine.D4, machine.D5, machine.D6, machine.D7, machine.D8, machine.D9)
 
-	servoDriver := servo.Servo{}
+	servoDriver := servo.Driver{}
 	servoDriver.Configure(machine.D11)
 
 	const password = "133742"

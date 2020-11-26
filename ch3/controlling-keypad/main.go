@@ -7,7 +7,7 @@ import (
 )
 
 func main() {
-	keypadDevice := keypad.Keypad{}
+	keypadDevice := keypad.Driver{}
 	keypadDevice.Configure(machine.D2, machine.D3, machine.D4, machine.D5, machine.D6, machine.D7, machine.D8, machine.D9)
 
 	for {

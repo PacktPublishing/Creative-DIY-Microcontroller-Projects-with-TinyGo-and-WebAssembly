@@ -7,7 +7,7 @@ import (
 )
 
 func main() {
-	servo := servo.Servo{}
+	servo := servo.Driver{}
 	servo.Configure(machine.D11)
 
 	servo.Right()
