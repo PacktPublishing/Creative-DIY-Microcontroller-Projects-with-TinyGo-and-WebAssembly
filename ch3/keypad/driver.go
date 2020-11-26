@@ -4,6 +4,7 @@ import (
 	"machine"
 )
 
+// Keypad is a driver for 4x4 keypads
 type Keypad struct {
 	inputEnabled bool
 	lastColumn   int
@@ -45,6 +46,15 @@ func (keypad *Keypad) Configure(c4, c3, c2, c1, r4, r3, r2, r1 machine.Pin) {
 	keypad.inputEnabled = true
 	keypad.lastColumn = -1
 	keypad.lastRow = -1
+}
+
+func (keypad *Keypad) GetButton() string {
+	row, column := keypad.GetIndices()
+	if row == -1 && column == -1 {
+		return ""
+	}
+
+	return keypad.mapping[row][column]
 }
 
 func (keypad *Keypad) GetIndices() (int, int) {
