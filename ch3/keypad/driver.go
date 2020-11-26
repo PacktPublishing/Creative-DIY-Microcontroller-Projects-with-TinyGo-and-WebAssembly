@@ -14,6 +14,7 @@ type Keypad struct {
 	mapping      [4][4]string
 }
 
+// Configure takes c4 -1 pins and r4 - r1 pins
 func (keypad *Keypad) Configure(c4, c3, c2, c1, r4, r3, r2, r1 machine.Pin) {
 	inputConfig := machine.PinConfig{Mode: machine.PinInputPullup}
 	c4.Configure(inputConfig)
@@ -48,7 +49,7 @@ func (keypad *Keypad) Configure(c4, c3, c2, c1, r4, r3, r2, r1 machine.Pin) {
 	keypad.lastRow = -1
 }
 
-func (keypad *Keypad) GetButton() string {
+func (keypad *Keypad) GetKey() string {
 	row, column := keypad.GetIndices()
 	if row == -1 && column == -1 {
 		return ""
