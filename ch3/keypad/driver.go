@@ -14,8 +14,8 @@ type Driver struct {
 	mapping      [4][4]string
 }
 
-// Configure takes c4 -1 pins and r4 - r1 pins
-func (keypad *Driver) Configure(c4, c3, c2, c1, r4, r3, r2, r1 machine.Pin) {
+// Configure takes r4 -r1 pins and c4 - c1 pins
+func (keypad *Driver) Configure(r4, r3, r2, r1, c4, c3, c2, c1 machine.Pin) {
 	inputConfig := machine.PinConfig{Mode: machine.PinInputPullup}
 	c4.Configure(inputConfig)
 	c3.Configure(inputConfig)

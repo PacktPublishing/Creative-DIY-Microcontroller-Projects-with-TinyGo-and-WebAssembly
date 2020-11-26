@@ -15,26 +15,47 @@ func main() {
 	servoDriver := servo.Driver{}
 	servoDriver.Configure(machine.D11)
 
-	const password = "133742"
-	enteredPassword := ""
+	outPutConfig := machine.PinConfig{Mode: machine.PinOutput}
+
+	led1 := machine.D12
+	led1.Configure(outPutConfig)
+
+	led2 := machine.D13
+	led2.Configure(outPutConfig)
+
+	const passcode = "133742"
+	enteredPasscode := ""
 
 	for {
 		key := keypadDriver.GetKey()
 		if key != "" {
 			println("Button: ", key)
 
-			enteredPassword += key
+			enteredPasscode += key
+
+			led2.High()
+			time.Sleep(time.Duration(time.Second / 5))
+			led2.Low()
 		}
 
-		if len(enteredPassword) == len(password) {
-			if password == enteredPassword {
+		if len(enteredPasscode) == len(passcode) {
+			if enteredPasscode == passcode {
 				println("Success")
-				enteredPassword = ""
+				enteredPasscode = ""
 				servoDriver.Right()
+
+				led1.High()
+				time.Sleep(time.Duration(time.Second * 3))
+				led1.Low()
+
 			} else {
 				println("Fail")
-				println("Entered Password: ", enteredPassword)
-				enteredPassword = ""
+				println("Entered Password: ", enteredPasscode)
+				enteredPasscode = ""
+
+				led2.High()
+				time.Sleep(time.Duration(time.Second * 3))
+				led2.Low()
 			}
 		}
 
