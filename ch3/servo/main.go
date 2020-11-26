@@ -17,12 +17,12 @@ const leftRemainingPeriod = 19000 * time.Microsecond
 const rightDutyCycle = 2000 * time.Microsecond
 const rightRemainingPeriod = 18000 * time.Microsecond
 
-// Servo is used to control a sg90 servomotor.
-type Servo struct {
+// Driver is used to control a sg90 servomotor.
+type Driver struct {
 	pwm machine.PWM
 }
 
-func (servo *Servo) Configure(pin machine.Pin) {
+func (servo *Driver) Configure(pin machine.Pin) {
 	machine.InitPWM()
 
 	servoPin := machine.PWM{Pin: pin}
@@ -31,7 +31,7 @@ func (servo *Servo) Configure(pin machine.Pin) {
 	servo.pwm = servoPin
 }
 
-func (servo *Servo) Right() {
+func (servo *Driver) Right() {
 	// prevent jamming, so only rotate a bit
 	for position := 0; position <= 4; position++ {
 		servo.pwm.Pin.High()
@@ -41,7 +41,7 @@ func (servo *Servo) Right() {
 	}
 }
 
-func (servo *Servo) Center() {
+func (servo *Driver) Center() {
 	for position := 0; position < 90; position++ {
 		servo.pwm.Pin.High()
 		time.Sleep(centerDutyCycle)
@@ -50,7 +50,7 @@ func (servo *Servo) Center() {
 	}
 }
 
-func (servo *Servo) Left() {
+func (servo *Driver) Left() {
 	for position := 0; position < 180; position++ {
 		servo.pwm.Pin.High()
 		time.Sleep(centerDutyCycle)

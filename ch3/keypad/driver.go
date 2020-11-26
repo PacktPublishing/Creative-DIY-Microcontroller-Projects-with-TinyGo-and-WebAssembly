@@ -4,8 +4,8 @@ import (
 	"machine"
 )
 
-// Keypad is a driver for 4x4 keypads
-type Keypad struct {
+// Driver is a driver for 4x4 keypads
+type Driver struct {
 	inputEnabled bool
 	lastColumn   int
 	lastRow      int
@@ -15,7 +15,7 @@ type Keypad struct {
 }
 
 // Configure takes c4 -1 pins and r4 - r1 pins
-func (keypad *Keypad) Configure(c4, c3, c2, c1, r4, r3, r2, r1 machine.Pin) {
+func (keypad *Driver) Configure(c4, c3, c2, c1, r4, r3, r2, r1 machine.Pin) {
 	inputConfig := machine.PinConfig{Mode: machine.PinInputPullup}
 	c4.Configure(inputConfig)
 	c3.Configure(inputConfig)
@@ -49,7 +49,7 @@ func (keypad *Keypad) Configure(c4, c3, c2, c1, r4, r3, r2, r1 machine.Pin) {
 	keypad.lastRow = -1
 }
 
-func (keypad *Keypad) GetKey() string {
+func (keypad *Driver) GetKey() string {
 	row, column := keypad.GetIndices()
 	if row == -1 && column == -1 {
 		return ""
@@ -58,7 +58,7 @@ func (keypad *Keypad) GetKey() string {
 	return keypad.mapping[row][column]
 }
 
-func (keypad *Keypad) GetIndices() (int, int) {
+func (keypad *Driver) GetIndices() (int, int) {
 	for rowIndex := range keypad.rows {
 		rowPin := keypad.rows[rowIndex]
 		rowPin.Low()
