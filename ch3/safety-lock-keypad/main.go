@@ -6,8 +6,8 @@ import (
 )
 
 // Left
-const pos0DutyCycle = 1500 * time.Microsecond
-const pos0RemainingPeriod = 18500 * time.Microsecond
+const rightDutyCycle = 2000 * time.Microsecond
+const rightRemainingPeriod = 18000 * time.Microsecond
 
 var inputEnabled = true
 var lastColumn = -1
@@ -39,7 +39,7 @@ func main() {
 			if password == enteredPassword {
 				println("Success")
 				enteredPassword = ""
-				close(servoPin)
+				right(servoPin)
 			} else {
 				println("Fail")
 				println("Entered Password: ", enteredPassword)
@@ -51,12 +51,13 @@ func main() {
 	}
 }
 
-func close(servoPin machine.PWM) {
-	for servoPosition = 0; servoPosition < 180; servoPosition++ {
+func right(servoPin machine.PWM) {
+	// prevent jamming, so only rotate a bit
+	for position := 0; position <= 4; position++ {
 		servoPin.Pin.High()
-		time.Sleep(pos0DutyCycle)
+		time.Sleep(rightDutyCycle)
 		servoPin.Pin.Low()
-		time.Sleep(pos0RemainingPeriod)
+		time.Sleep(rightRemainingPeriod)
 	}
 }
 

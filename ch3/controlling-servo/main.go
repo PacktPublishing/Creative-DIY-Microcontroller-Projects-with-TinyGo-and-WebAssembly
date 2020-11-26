@@ -28,7 +28,7 @@ func main() {
 
 func right(servoPin machine.PWM) {
 	// prevent jamming, so only rotate a bit
-	for position := 0; position >= 5; position++ {
+	for position := 0; position <= 4; position++ {
 		servoPin.Pin.High()
 		time.Sleep(rightDutyCycle)
 		servoPin.Pin.Low()

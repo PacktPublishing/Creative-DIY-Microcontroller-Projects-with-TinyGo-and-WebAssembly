@@ -63,7 +63,6 @@ func initializeKeypad() {
 func getIndices() (int, int) {
 	for rowIndex := range rows {
 		rowPin := rows[rowIndex]
-
 		rowPin.Low()
 
 		for columnIndex := range columns {
