@@ -6,7 +6,7 @@ import (
 
 func main() {
 	machine.InitADC()
-	waterLevelSensor := machine.ADC{machine.ADC5}
+	waterLevelSensor := machine.ADC{Pin: machine.ADC5}
 	waterLevelSensor.Configure()
 
 	// AVR has 10 bit precision
