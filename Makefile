@@ -12,3 +12,6 @@ safety-lock-keypad:
 
 soil-moisture-sensor:
 	tinygo flash --target=arduino ch4/soil-moisture-sensor/main.go && cat /dev/ttyACM0
+
+water-level-sensor:
+	tinygo flash --target=arduino ch4/water-level-sensor/main.go && cat /dev/ttyACM0
