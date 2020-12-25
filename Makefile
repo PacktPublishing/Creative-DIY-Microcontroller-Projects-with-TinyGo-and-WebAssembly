@@ -9,3 +9,6 @@ controlling-keypad:
 
 safety-lock-keypad: 
 	tinygo flash --target=arduino ch3/safety-lock-keypad/main.go
+
+soil-moisture-sensor:
+	tinygo flash --target=arduino ch4/soil-moisture-sensor/main.go && cat /dev/ttyACM0
