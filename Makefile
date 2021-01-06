@@ -18,3 +18,6 @@ water-level-sensor:
 
 buzzer-example: 
 	tinygo flash --target=arduino ch4/buzzer-example/main.go
+
+water-level-sensor:
+	tinygo flash --target=arduino ch4plant-watering-system/main.go
