@@ -12,6 +12,7 @@ func main() {
 	buzzer.Configure()
 
 	for {
-		buzzer.Beep(time.Millisecond*20, 3)
+		buzzer.Beep(time.Millisecond*100, 3)
+		time.Sleep(time.Second)
 	}
 }
