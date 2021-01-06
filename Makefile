@@ -17,4 +17,4 @@ water-level-sensor:
 	tinygo flash --target=arduino ch4/water-level-sensor/main.go && cat /dev/ttyACM0
 
 buzzer-example: 
-	tinygo flash --target=arduino ch4/buzzer-example/main.go && cat /dev/ttyACM0
+	tinygo flash --target=arduino ch4/buzzer-example/main.go
