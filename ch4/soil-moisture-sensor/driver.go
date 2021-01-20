@@ -6,45 +6,70 @@ import (
 
 // SoilSensor is used to read the humidity value of a soil sensor
 type SoilSensor interface {
-	Get() uint8
+	Get() MoistureLevel
 	Configure()
 	On()
 	Off()
 }
 
 type soilSensor struct {
-	wetThreshold float32
-	dryThreshold float32
-	pin          machine.Pin
-	adc          machine.ADC
-	voltage      machine.Pin
+	waterThreshold         float32
+	completelyDryThreshold float32
+	category               float32
+	pin                    machine.Pin
+	adc                    machine.ADC
+	voltage                machine.Pin
 }
+
+type MoistureLevel uint8
+
+const (
+	CompletelyDry MoistureLevel = iota
+	VeryDry       MoistureLevel = iota
+	Dry           MoistureLevel = iota
+	Wet           MoistureLevel = iota
+	VeryWet       MoistureLevel = iota
+	Water         MoistureLevel = iota
+)
 
 func NewSoilSensor(wetThreshold, dryThreshold float32, dataPin, voltagePin machine.Pin) SoilSensor {
-	return soilSensor{
-		wetThreshold: wetThreshold,
-		dryThreshold: dryThreshold,
-		pin:          dataPin,
-		voltage:      voltagePin,
+	category := (wetThreshold - dryThreshold) / 6
+	return &soilSensor{
+		waterThreshold:         wetThreshold,
+		completelyDryThreshold: dryThreshold,
+		category:               category,
+		pin:                    dataPin,
+		voltage:                voltagePin,
 	}
 }
 
-func (sensor soilSensor) Get() uint8 {
-	value := sensor.adc.Get()
+func (sensor *soilSensor) Get() MoistureLevel {
+	value := float32(sensor.adc.Get())
 	println("value reading:", value)
 
-	if float32(value) <= sensor.wetThreshold {
-		return 100
+	switch {
+	case float32(value) <= sensor.waterThreshold:
+		return Water
+	case float32(value) >= sensor.completelyDryThreshold:
+		return CompletelyDry
+	case value >= sensor.completelyDryThreshold-sensor.category &&
+		value < sensor.completelyDryThreshold-sensor.category*2:
+		return VeryDry
+	case value >= sensor.completelyDryThreshold-sensor.category*2 &&
+		value < sensor.completelyDryThreshold-sensor.category*3:
+		return Dry
+	case value >= sensor.completelyDryThreshold-sensor.category*4 &&
+		value < sensor.completelyDryThreshold-sensor.category*5:
+		return Wet
+	case value >= sensor.completelyDryThreshold-sensor.category*5 &&
+		value < sensor.completelyDryThreshold-sensor.category*6:
+		return VeryWet
 	}
 
-	if float32(value) > sensor.dryThreshold {
-		return 0
-	}
-
-	return uint8(float32(value) / sensor.dryThreshold * 100)
+	return VeryDry
 }
 
-func (sensor soilSensor) Configure() {
+func (sensor *soilSensor) Configure() {
 	sensor.adc = machine.ADC{Pin: sensor.pin}
 	sensor.adc.Configure()
 
@@ -52,10 +77,10 @@ func (sensor soilSensor) Configure() {
 	sensor.voltage.Low()
 }
 
-func (sensor soilSensor) On() {
+func (sensor *soilSensor) On() {
 	sensor.voltage.High()
 }
 
-func (sensor soilSensor) Off() {
+func (sensor *soilSensor) Off() {
 	sensor.voltage.Low()
 }
