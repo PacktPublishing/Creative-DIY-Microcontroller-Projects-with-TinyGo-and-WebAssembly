@@ -9,7 +9,7 @@ import (
 
 func main() {
 	machine.InitADC()
-	soilSensor := soil.NewSoilSensor(18000, 35000, machine.ADC5, machine.D2)
+	soilSensor := soil.NewSoilSensor(18000, 34800, machine.ADC5, machine.D2)
 	soilSensor.Configure()
 
 	for {
