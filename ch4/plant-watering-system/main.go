@@ -42,10 +42,11 @@ func main() {
 		case soil.CompletelyDry:
 			fallthrough
 		case soil.VeryDry:
+			soilSensor.Off()
 			pump.Pump(350*time.Millisecond, 3)
 		default:
+			soilSensor.Off()
 			time.Sleep(time.Hour)
 		}
-		soilSensor.Off()
 	}
 }
