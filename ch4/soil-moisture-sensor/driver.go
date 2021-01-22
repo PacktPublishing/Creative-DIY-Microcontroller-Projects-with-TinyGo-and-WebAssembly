@@ -32,10 +32,10 @@ const (
 	Water         MoistureLevel = iota
 )
 
-func NewSoilSensor(wetThreshold, dryThreshold float32, dataPin, voltagePin machine.Pin) SoilSensor {
-	category := (dryThreshold - wetThreshold) / 6
+func NewSoilSensor(waterThreshold, dryThreshold float32, dataPin, voltagePin machine.Pin) SoilSensor {
+	category := (dryThreshold - waterThreshold) / 6
 	return &soilSensor{
-		waterThreshold:         wetThreshold,
+		waterThreshold:         waterThreshold,
 		completelyDryThreshold: dryThreshold,
 		category:               category,
 		pin:                    dataPin,
@@ -45,17 +45,9 @@ func NewSoilSensor(wetThreshold, dryThreshold float32, dataPin, voltagePin machi
 
 func (sensor *soilSensor) Get() MoistureLevel {
 	value := float32(sensor.adc.Get())
-	println("value reading:", value)
-
-	// 22000
-	// 2800
-
-	println("category:", sensor.category)
 
 	switch {
-	case float32(value) <= sensor.waterThreshold:
-		return Water
-	case float32(value) >= sensor.completelyDryThreshold:
+	case value >= sensor.completelyDryThreshold:
 		return CompletelyDry
 	case value <= sensor.completelyDryThreshold-sensor.category &&
 		value > sensor.completelyDryThreshold-sensor.category*2:
@@ -69,9 +61,9 @@ func (sensor *soilSensor) Get() MoistureLevel {
 	case value <= sensor.completelyDryThreshold-sensor.category*5 &&
 		value > sensor.completelyDryThreshold-sensor.category*6:
 		return VeryWet
+	default:
+		return Water
 	}
-
-	return VeryDry
 }
 
 func (sensor *soilSensor) Configure() {

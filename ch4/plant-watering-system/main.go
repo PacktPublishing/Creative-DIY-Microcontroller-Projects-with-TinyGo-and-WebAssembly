@@ -6,41 +6,46 @@ import (
 
 	"github.com/PacktPublishing/Programming-Microcontrollers-and-WebAssembly-with-TinyGo/ch4/buzzer"
 	"github.com/PacktPublishing/Programming-Microcontrollers-and-WebAssembly-with-TinyGo/ch4/pump"
+	"github.com/PacktPublishing/Programming-Microcontrollers-and-WebAssembly-with-TinyGo/ch4/soil-moisture-sensor"
+	waterlevel "github.com/PacktPublishing/Programming-Microcontrollers-and-WebAssembly-with-TinyGo/ch4/water-level-sensor"
 )
 
 func main() {
 	machine.InitADC()
-	soilSensor := machine.ADC{Pin: machine.ADC3}
+
+	soilSensor := soil.NewSoilSensor(18000, 34800, machine.ADC5, machine.D2)
 	soilSensor.Configure()
 
-	waterLevelSensor := machine.ADC{Pin: machine.ADC5}
+	waterLevelSensor := waterlevel.NewWaterLevel(7000, machine.ADC4, machine.D3)
 	waterLevelSensor.Configure()
 
-	buzzer := buzzer.NewBuzzer(machine.D3)
-	buzzer.Configure()
-
-	pump := pump.NewPump(machine.D8)
+	pump := pump.NewPump(machine.D5)
 	pump.Configure()
 
-	go checkWaterLevel(waterLevelSensor, buzzer)
+	buzzer := buzzer.NewBuzzer(machine.D4)
+	buzzer.Configure()
 
 	for {
-		soilLevel := soilSensor.Get()
-		if soilLevel < 16.000 {
-			pump.Pump(300*time.Millisecond, 3)
+		waterLevelSensor.On()
+		time.Sleep(100 * time.Millisecond)
+		if waterLevelSensor.IsEmpty() {
+			waterLevelSensor.Off()
+			buzzer.Beep(150*time.Millisecond, 3)
+			time.Sleep(time.Hour)
+			continue
 		}
+		waterLevelSensor.Off()
 
-		time.Sleep(time.Minute)
-	}
-}
-
-func checkWaterLevel(waterLevelSensor machine.ADC, buzzer buzzer.Buzzer) {
-	for {
-		waterLevel := waterLevelSensor.Get()
-		if waterLevel < 25.000 {
-			buzzer.Beep(time.Millisecond*100, 3)
+		soilSensor.On()
+		time.Sleep(100 * time.Millisecond)
+		switch soilSensor.Get() {
+		case soil.CompletelyDry:
+			fallthrough
+		case soil.VeryDry:
+			pump.Pump(350*time.Millisecond, 3)
+		default:
+			time.Sleep(time.Hour)
 		}
-
-		time.Sleep(time.Hour)
+		soilSensor.Off()
 	}
 }

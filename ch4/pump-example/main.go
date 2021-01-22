@@ -8,7 +8,8 @@ import (
 )
 
 func main() {
-	pump := pump.NewPump(machine.D8)
+	pump := pump.NewPump(machine.D5)
+	pump.Configure()
 
 	for {
 		pump.Pump(350*time.Millisecond, 3)

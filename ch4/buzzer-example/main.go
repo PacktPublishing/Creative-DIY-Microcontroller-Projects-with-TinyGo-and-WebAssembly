@@ -8,11 +8,11 @@ import (
 )
 
 func main() {
-	buzzer := buzzer.NewBuzzer(machine.PD3)
+	buzzer := buzzer.NewBuzzer(machine.D4)
 	buzzer.Configure()
 
 	for {
 		buzzer.Beep(time.Millisecond*100, 3)
-		time.Sleep(time.Second)
+		time.Sleep(3 * time.Second)
 	}
 }
