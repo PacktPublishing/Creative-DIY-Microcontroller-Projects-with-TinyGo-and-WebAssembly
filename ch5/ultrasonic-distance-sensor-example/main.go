@@ -4,7 +4,7 @@ import (
 	"machine"
 	"time"
 
-	hcsr04 "github.com/PacktPublishing/Programming-Microcontrollers-and-WebAssembly-with-TinyGo/ch5/supersonic-distance-sensor"
+	hcsr04 "github.com/PacktPublishing/Programming-Microcontrollers-and-WebAssembly-with-TinyGo/ch5/ultrasonic-distance-sensor"
 )
 
 func main() {
@@ -15,6 +15,6 @@ func main() {
 		distance := sensor.GetDistance()
 		println("Current distance: ", distance, "cm")
 
-		time.Sleep(100 * time.Millisecond)
+		time.Sleep(time.Second)
 	}
 }

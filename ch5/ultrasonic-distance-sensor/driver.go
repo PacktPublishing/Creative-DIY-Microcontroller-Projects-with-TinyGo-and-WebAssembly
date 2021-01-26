@@ -16,11 +16,11 @@ type HCSR04 interface {
 type hcsr04 struct {
 	trigger machine.Pin
 	echo    machine.Pin
-	timeout uint16
+	timeout int64
 }
 
 func NewHCSR04(trigger, echo machine.Pin, maxDistance float32) HCSR04 {
-	timeout := uint16(maxDistance / speedOfSound)
+	timeout := int64(maxDistance/speedOfSound) * 10
 
 	return &hcsr04{
 		trigger: trigger,
@@ -31,12 +31,14 @@ func NewHCSR04(trigger, echo machine.Pin, maxDistance float32) HCSR04 {
 
 func (sensor *hcsr04) Configure() {
 	sensor.trigger.Configure(machine.PinConfig{Mode: machine.PinOutput})
-	sensor.trigger.Configure(machine.PinConfig{Mode: machine.PinInput})
+	sensor.echo.Configure(machine.PinConfig{Mode: machine.PinInput})
 }
 
 func (sensor *hcsr04) GetDistance() uint16 {
 	timeoutTimer := time.Now()
 
+	sensor.trigger.Low()
+	time.Sleep(2 * time.Microsecond)
 	sensor.trigger.High()
 	time.Sleep(10 * time.Microsecond)
 	sensor.trigger.Low()
@@ -46,20 +48,28 @@ func (sensor *hcsr04) GetDistance() uint16 {
 			break
 		}
 
-		if time.Since(timeoutTimer).Microseconds() > int64(sensor.timeout) {
+		microseconds := time.Since(timeoutTimer).Microseconds()
+		if microseconds > int64(sensor.timeout) {
+			println("timeout:", sensor.timeout, "after:", microseconds)
 			return 0
 		}
 	}
 
 	var pulseLength float32
+	i := 0
 	for {
 		if !sensor.echo.Get() {
-			pulseLength = float32(time.Since(timeoutTimer).Microseconds())
+			pulseLength = float32(time.Since(timeoutTimer).Microseconds() - 12)
 			break
 		}
 
-		if time.Since(timeoutTimer).Microseconds() > int64(sensor.timeout) {
-			return 0
+		i++
+		if i > 10 {
+			microseconds := time.Since(timeoutTimer).Microseconds()
+			if microseconds > int64(sensor.timeout) {
+				println("timeout:", sensor.timeout, "after:", microseconds)
+				return 0
+			}
 		}
 	}
 

@@ -25,8 +25,8 @@ plant-watering-system:
 soil-moisture-sensor-thresholds:
 	tinygo flash --target=arduino ch4/soil-moisture-sensor-thresholds/main.go
 
-supersonic-distance-sensor-example:
-	tinygo flash --target=arduino ch5/supersonic-distance-sensor-example/main.go
+ultrasonic-distance-sensor-example:
+	tinygo flash --target=arduino ch5/ultrasonic-distance-sensor-example/main.go
 
 test:
-	tinygo test --tags "arduino atmega328p" ch5/supersonic-distance-sensor/driver_test.go
+	tinygo test --tags "arduino atmega328p llvm11" ch5/ultrasonic-distance-sensor/driver_test.go

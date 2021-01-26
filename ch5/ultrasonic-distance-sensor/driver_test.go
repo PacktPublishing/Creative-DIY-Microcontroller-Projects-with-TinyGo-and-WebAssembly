@@ -4,7 +4,7 @@ import (
 	"machine"
 	"testing"
 
-	hcsr04 "github.com/PacktPublishing/Programming-Microcontrollers-and-WebAssembly-with-TinyGo/ch5/supersonic-distance-sensor"
+	hcsr04 "github.com/PacktPublishing/Programming-Microcontrollers-and-WebAssembly-with-TinyGo/ch5/ultrasonic-distance-sensor"
 )
 
 func TestGetDistanceFromPulseLength_30cm(t *testing.T) {
