@@ -9,8 +9,8 @@ const speedOfSound = 0.0343 // cm / us
 
 type HCSR04 interface {
 	Configure()
-	GetDistance() uint32
-	GetDistanceFromPulseLength(pulseLength float32) uint32
+	GetDistance() uint16
+	GetDistanceFromPulseLength(pulseLength float32) uint16
 }
 
 type hcsr04 struct {
@@ -41,7 +41,7 @@ func (sensor *hcsr04) sendPulse() {
 
 }
 
-func (sensor *hcsr04) GetDistance() uint32 {
+func (sensor *hcsr04) GetDistance() uint16 {
 	timeoutTimer := time.Now()
 	i := 0
 
@@ -65,7 +65,9 @@ func (sensor *hcsr04) GetDistance() uint32 {
 	i = 0
 	for {
 		if !sensor.echo.Get() {
-			pulseLength = float32(time.Since(timeoutTimer).Microseconds())
+			microseconds := time.Since(timeoutTimer).Microseconds()
+			println("microseconds:", microseconds)
+			pulseLength = float32(microseconds)
 			break
 		}
 
@@ -81,9 +83,9 @@ func (sensor *hcsr04) GetDistance() uint32 {
 	return sensor.GetDistanceFromPulseLength(pulseLength)
 }
 
-func (sensor *hcsr04) GetDistanceFromPulseLength(pulseLength float32) uint32 {
+func (sensor *hcsr04) GetDistanceFromPulseLength(pulseLength float32) uint16 {
 	pulseLength = pulseLength / 2
 	result := pulseLength * speedOfSound
 
-	return uint32(result)
+	return uint16(result)
 }
