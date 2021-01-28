@@ -31,17 +31,17 @@ func TestGetDistanceFromPulseLength_TableDriven(t *testing.T) {
 		{
 			Name:        "30cm",
 			Result:      30,
-			PulseLength: 1764.70588235,
+			PulseLength: 1749.27113703,
 		},
 		{
 			Name:        "60cm",
 			Result:      60,
-			PulseLength: 3529.4117647,
+			PulseLength: 3498.54227405,
 		},
 		{
 			Name:        "400cm",
 			Result:      400,
-			PulseLength: 23529.4117647,
+			PulseLength: 23323.6151603,
 		},
 	}
 
@@ -52,7 +52,7 @@ func TestGetDistanceFromPulseLength_TableDriven(t *testing.T) {
 			distance := sensor.GetDistanceFromPulseLength(testCase.PulseLength)
 
 			if distance != testCase.Result {
-				t.Error("Expected distance: 30cm", "actual distance: ", distance, "cm")
+				t.Error("Expected distance:", testCase.Name, "actual distance: ", distance, "cm")
 			}
 		})
 	}

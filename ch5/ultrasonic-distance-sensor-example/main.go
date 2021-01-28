@@ -8,7 +8,7 @@ import (
 )
 
 func main() {
-	sensor := hcsr04.NewHCSR04(machine.D2, machine.D3, 400)
+	sensor := hcsr04.NewHCSR04(machine.D2, machine.D3, 80)
 	sensor.Configure()
 
 	for {

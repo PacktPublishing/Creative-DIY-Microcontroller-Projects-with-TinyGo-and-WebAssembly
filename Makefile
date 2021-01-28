@@ -29,4 +29,4 @@ ultrasonic-distance-sensor-example:
 	tinygo flash --target=arduino-nano33 ch5/ultrasonic-distance-sensor-example/main.go && putty
 
 test:
-	tinygo test --tags "arduino atmega328p llvm11" ch5/ultrasonic-distance-sensor/driver_test.go
+	tinygo test --tags "arduino_nano33" ch5/ultrasonic-distance-sensor/driver_test.go
