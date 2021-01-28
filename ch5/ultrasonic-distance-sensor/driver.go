@@ -5,12 +5,12 @@ import (
 	"time"
 )
 
-const speedOfSound = 0.034
+const speedOfSound = 0.0343 // cm / us
 
 type HCSR04 interface {
 	Configure()
-	GetDistance() uint16
-	GetDistanceFromPulseLength(pulseLength float32) uint16
+	GetDistance() uint32
+	GetDistanceFromPulseLength(pulseLength float32) uint32
 }
 
 type hcsr04 struct {
@@ -20,7 +20,7 @@ type hcsr04 struct {
 }
 
 func NewHCSR04(trigger, echo machine.Pin, maxDistance float32) HCSR04 {
-	timeout := int64(maxDistance/speedOfSound) * 10
+	timeout := int64(maxDistance * 2 / speedOfSound)
 
 	return &hcsr04{
 		trigger: trigger,
@@ -34,40 +34,45 @@ func (sensor *hcsr04) Configure() {
 	sensor.echo.Configure(machine.PinConfig{Mode: machine.PinInput})
 }
 
-func (sensor *hcsr04) GetDistance() uint16 {
-	timeoutTimer := time.Now()
-
-	sensor.trigger.Low()
-	time.Sleep(2 * time.Microsecond)
+func (sensor *hcsr04) sendPulse() {
 	sensor.trigger.High()
 	time.Sleep(10 * time.Microsecond)
 	sensor.trigger.Low()
+
+}
+
+func (sensor *hcsr04) GetDistance() uint32 {
+	timeoutTimer := time.Now()
+	i := 0
+
+	sensor.sendPulse()
+
 	for {
 		if sensor.echo.Get() {
 			timeoutTimer = time.Now()
 			break
 		}
-
-		microseconds := time.Since(timeoutTimer).Microseconds()
-		if microseconds > int64(sensor.timeout) {
-			println("timeout:", sensor.timeout, "after:", microseconds)
-			return 0
+		i++
+		if i > 15 {
+			microseconds := time.Since(timeoutTimer).Microseconds()
+			if microseconds > int64(sensor.timeout) {
+				return 0
+			}
 		}
 	}
 
 	var pulseLength float32
-	i := 0
+	i = 0
 	for {
 		if !sensor.echo.Get() {
-			pulseLength = float32(time.Since(timeoutTimer).Microseconds() - 12)
+			pulseLength = float32(time.Since(timeoutTimer).Microseconds())
 			break
 		}
 
 		i++
-		if i > 10 {
+		if i > 15 {
 			microseconds := time.Since(timeoutTimer).Microseconds()
 			if microseconds > int64(sensor.timeout) {
-				println("timeout:", sensor.timeout, "after:", microseconds)
 				return 0
 			}
 		}
@@ -76,9 +81,9 @@ func (sensor *hcsr04) GetDistance() uint16 {
 	return sensor.GetDistanceFromPulseLength(pulseLength)
 }
 
-func (sensor *hcsr04) GetDistanceFromPulseLength(pulseLength float32) uint16 {
+func (sensor *hcsr04) GetDistanceFromPulseLength(pulseLength float32) uint32 {
 	pulseLength = pulseLength / 2
 	result := pulseLength * speedOfSound
 
-	return uint16(result)
+	return uint32(result)
 }

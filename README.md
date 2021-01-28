@@ -29,7 +29,6 @@ Programming Microcontrollers and WebAssembly with TinyGo, published by Packt
 [Arduino UNO](https://store.arduino.cc/arduino-uno-rev3)
 
 ## Troubleshooting
-
 ### Windows
 
 #### exit status 3221225781

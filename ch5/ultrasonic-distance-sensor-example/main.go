@@ -8,13 +8,15 @@ import (
 )
 
 func main() {
-	sensor := hcsr04.NewHCSR04(machine.D2, machine.D3, 400)
+	sensor := hcsr04.NewHCSR04(machine.D2, machine.D3, 80)
 	sensor.Configure()
 
 	for {
 		distance := sensor.GetDistance()
-		println("Current distance: ", distance, "cm")
+		if distance != 0 {
+			println("Current distance: ", distance, "cm")
+		}
 
-		time.Sleep(time.Second)
+		time.Sleep(1000 * time.Millisecond)
 	}
 }
