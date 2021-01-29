@@ -36,6 +36,3 @@ Programming Microcontrollers and WebAssembly with TinyGo, published by Packt
 When tinygo flash returns an error like this: > error: failed to flash C:\Users\Enrico\AppData\Local\Temp\tinygo393394635\main.hex: exit status 3221225781
 This is most likely due to a missing .dll file.
 Install this to get the dll you need: https://sourceforge.net/projects/libusb-win32/
-
-
-[Arduino Nano IoT 33](https://store.arduino.cc/arduino-nano-33-iot-with-headers)
