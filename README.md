@@ -27,6 +27,7 @@ Programming Microcontrollers and WebAssembly with TinyGo, published by Packt
 ## Required Hardware
 
 [Arduino UNO](https://store.arduino.cc/arduino-uno-rev3)
+
 [Arduino Nano 33 IoT](https://store.arduino.cc/arduino-nano-33-iot)
 
 ## Troubleshooting
