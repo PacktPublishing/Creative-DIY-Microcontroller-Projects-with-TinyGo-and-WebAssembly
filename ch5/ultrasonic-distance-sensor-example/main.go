@@ -17,6 +17,6 @@ func main() {
 			println("Current distance: ", distance, "cm")
 		}
 
-		time.Sleep(1000 * time.Millisecond)
+		time.Sleep(time.Second)
 	}
 }

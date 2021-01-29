@@ -10,7 +10,7 @@ import (
 func TestGetDistanceFromPulseLength_30cm(t *testing.T) {
 	sensor := hcsr04.NewHCSR04(machine.D2, machine.D3, 100)
 
-	distance := sensor.GetDistanceFromPulseLength(1764.70588235)
+	distance := sensor.GetDistanceFromPulseLength(1749.27113703)
 
 	if distance != 30 {
 		t.Error("Expected distance: 30cm", "actual distance: ", distance, "cm")
@@ -18,7 +18,8 @@ func TestGetDistanceFromPulseLength_30cm(t *testing.T) {
 }
 
 func TestGetDistanceFromPulseLength_TableDriven(t *testing.T) {
-	var testCases = []struct {
+	// Arrange
+	var testCases = [4]struct {
 		Name        string
 		Result      uint16
 		PulseLength float32
@@ -49,8 +50,10 @@ func TestGetDistanceFromPulseLength_TableDriven(t *testing.T) {
 
 	for _, testCase := range testCases {
 		t.Run(testCase.Name, func(t *testing.T) {
+			// Act
 			distance := sensor.GetDistanceFromPulseLength(testCase.PulseLength)
 
+			// Assert
 			if distance != testCase.Result {
 				t.Error("Expected distance:", testCase.Name, "actual distance: ", distance, "cm")
 			}

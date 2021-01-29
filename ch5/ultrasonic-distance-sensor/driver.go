@@ -38,13 +38,11 @@ func (sensor *hcsr04) sendPulse() {
 	sensor.trigger.High()
 	time.Sleep(10 * time.Microsecond)
 	sensor.trigger.Low()
-
 }
 
 func (sensor *hcsr04) GetDistance() uint16 {
-	timeoutTimer := time.Now()
 	i := 0
-
+	timeoutTimer := time.Now()
 	sensor.sendPulse()
 
 	for {
@@ -55,7 +53,7 @@ func (sensor *hcsr04) GetDistance() uint16 {
 		i++
 		if i > 15 {
 			microseconds := time.Since(timeoutTimer).Microseconds()
-			if microseconds > int64(sensor.timeout) {
+			if microseconds > sensor.timeout {
 				return 0
 			}
 		}
@@ -66,7 +64,6 @@ func (sensor *hcsr04) GetDistance() uint16 {
 	for {
 		if !sensor.echo.Get() {
 			microseconds := time.Since(timeoutTimer).Microseconds()
-			println("microseconds:", microseconds)
 			pulseLength = float32(microseconds)
 			break
 		}
@@ -74,7 +71,7 @@ func (sensor *hcsr04) GetDistance() uint16 {
 		i++
 		if i > 15 {
 			microseconds := time.Since(timeoutTimer).Microseconds()
-			if microseconds > int64(sensor.timeout) {
+			if microseconds > sensor.timeout {
 				return 0
 			}
 		}
