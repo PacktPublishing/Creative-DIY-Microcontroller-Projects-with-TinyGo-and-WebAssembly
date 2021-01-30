@@ -8,7 +8,6 @@ import (
 type Device interface {
 	Configure()
 	WriteCommand(register, data byte)
-
 	StartShutdownMode()
 	StopShutdownMode()
 	StartDisplayTest()
@@ -22,17 +21,23 @@ type device struct {
 	load machine.Pin // load
 }
 
-// NewDriver creates a new max7219 connection. The SPI wire must already be configured
-func NewDriver(load machine.Pin, bus machine.SPI) Device {
+// NewDevice creates a new max7219 connection. The SPI wire must already be configured
+func NewDevice(load machine.Pin, bus machine.SPI) Device {
 	return &device{
 		load: load,
 		bus:  bus,
 	}
 }
 
+func (driver *device) WriteCommand(register, data byte) {
+	driver.load.Low()
+	driver.writeByte(register)
+	driver.writeByte(data)
+	driver.load.High()
+}
+
 func (driver *device) Configure() {
 	outPutConfig := machine.PinConfig{Mode: machine.PinOutput}
-
 	driver.load.Configure(outPutConfig)
 }
 
@@ -55,7 +60,6 @@ func (driver *device) SetDecodeMode(digitNumber uint8) {
 
 func (driver *device) StartShutdownMode() {
 	driver.WriteCommand(REG_SHUTDOWN, 0x00)
-
 }
 
 func (driver *device) StopShutdownMode() {
@@ -72,11 +76,4 @@ func (driver *device) StopDisplayTest() {
 
 func (driver *device) writeByte(data byte) {
 	driver.bus.Transfer(data)
-}
-
-func (driver *device) WriteCommand(register, data byte) {
-	driver.load.Low()
-	driver.writeByte(register)
-	driver.writeByte(data)
-	driver.load.High()
 }

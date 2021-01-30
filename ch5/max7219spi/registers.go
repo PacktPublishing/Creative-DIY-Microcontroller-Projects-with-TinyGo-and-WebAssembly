@@ -10,9 +10,9 @@ const (
 	REG_DIGIT5       byte = 0x06
 	REG_DIGIT6       byte = 0x07
 	REG_DIGIT7       byte = 0x08
-	REG_DECODE_MODE  byte = 0x09 // turn of for led matrix, turn on for digits
+	REG_DECODE_MODE  byte = 0x09
 	REG_INTENSITY    byte = 0x0A
 	REG_SCANLIMIT    byte = 0x0B
-	REG_SHUTDOWN     byte = 0x0C // turn on for no shutdown mode
-	REG_DISPLAY_TEST byte = 0x0F // turn off for no display test
+	REG_SHUTDOWN     byte = 0x0C
+	REG_DISPLAY_TEST byte = 0x0F
 )

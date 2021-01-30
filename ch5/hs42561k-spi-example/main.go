@@ -45,7 +45,7 @@ func main() {
 
 	println("spi configured")
 
-	displayDriver := max7219spi.NewDriver(machine.D6, machine.SPI0)
+	displayDriver := max7219spi.NewDevice(machine.D6, machine.SPI0)
 	displayDriver.Configure()
 	display := hs42561k.NewDriver(displayDriver, 4)
 	display.Configure()
