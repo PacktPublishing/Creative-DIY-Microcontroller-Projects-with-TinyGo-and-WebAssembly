@@ -34,6 +34,5 @@ hs42561k-example:
 hs42561k-spi-example:
 	tinygo flash --target=arduino-nano33 ch5/hs42561k-spi-example/main.go
 
-
 test:
 	tinygo test --tags "arduino_nano33" ch5/ultrasonic-distance-sensor/driver_test.go

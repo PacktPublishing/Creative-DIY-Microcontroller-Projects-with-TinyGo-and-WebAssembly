@@ -32,30 +32,30 @@ func main() {
 	time.Sleep(2 * time.Second)
 	println("startup")
 
-	displayDriver := max7219.NewDriver(machine.D11, machine.D13, machine.D6)
+	displayDriver := max7219.NewDriver(machine.D11, machine.D5, machine.D13)
 	displayDriver.Configure()
 	display := hs42561k.NewDriver(displayDriver, 4)
 	display.Configure()
 
 	println("display configured")
-	time.Sleep(5 * time.Second)
+	// time.Sleep(5 * time.Second)
 
-	println("stop display test")
+	// println("stop display test")
 	display.StopDisplayTest()
-	time.Sleep(time.Second)
-	println("start display test")
-	display.StartDisplayTest()
-	time.Sleep(5 * time.Second)
-	println("stop display test")
-	display.StopDisplayTest()
-	time.Sleep(time.Second)
+	// time.Sleep(time.Second)
+	// println("start display test")
+	// display.StartDisplayTest()
+	// time.Sleep(5 * time.Second)
+	// println("stop display test")
+	// display.StopDisplayTest()
+	// time.Sleep(time.Second)
 
 	for {
 		for _, character := range characters {
 			// if i%2 == 1 {
 			// 	continue
 			// }
-			// display.Configure()
+			display.Configure()
 			println("writing", "characterValue:", character.String())
 			display.SetDigit(4, character)
 			display.SetDigit(3, character)

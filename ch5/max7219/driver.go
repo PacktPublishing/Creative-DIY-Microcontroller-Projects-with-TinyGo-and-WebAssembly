@@ -43,7 +43,7 @@ func (driver *driver) writeByte(data byte) {
 			driver.din.Low()
 		}
 		driver.clk.High()
-		time.Sleep(6 * time.Microsecond)
+		time.Sleep(100 * time.Nanosecond)
 	}
 }
 

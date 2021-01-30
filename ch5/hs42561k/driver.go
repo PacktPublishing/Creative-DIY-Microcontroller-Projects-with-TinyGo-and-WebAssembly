@@ -3,7 +3,6 @@ package hs42561k
 import (
 	"errors"
 
-	"github.com/PacktPublishing/Programming-Microcontrollers-and-WebAssembly-with-TinyGo/ch5/max7219"
 	max7219spi "github.com/PacktPublishing/Programming-Microcontrollers-and-WebAssembly-with-TinyGo/ch5/max7219-spi"
 )
 
@@ -42,28 +41,28 @@ func (driver *driver) Configure() {
 
 	driver.StopShutdownMode()
 
-	driver.displayDriver.WriteCommand(byte(max7219.REG_SCANLIMIT), byte(driver.digitNumber-1))
+	driver.displayDriver.WriteCommand(byte(max7219spi.REG_SCANLIMIT), byte(driver.digitNumber-1))
 	for i := 1; i < int(driver.digitNumber); i++ {
 		driver.displayDriver.WriteCommand(byte(i), byte(Blank))
 	}
 }
 
 func (driver *driver) StartShutdownMode() {
-	driver.displayDriver.WriteCommand(byte(max7219.REG_SHUTDOWN), 0x00)
+	driver.displayDriver.WriteCommand(byte(max7219spi.REG_SHUTDOWN), 0x00)
 
 }
 
 func (driver *driver) StopShutdownMode() {
-	driver.displayDriver.WriteCommand(byte(max7219.REG_SHUTDOWN), 0x01)
+	driver.displayDriver.WriteCommand(byte(max7219spi.REG_SHUTDOWN), 0x01)
 }
 
 func (driver *driver) StartDisplayTest() {
-	driver.displayDriver.WriteCommand(byte(max7219.REG_DISPLAY_TEST), 0x01)
+	driver.displayDriver.WriteCommand(byte(max7219spi.REG_DISPLAY_TEST), 0x01)
 
 }
 
 func (driver *driver) StopDisplayTest() {
-	driver.displayDriver.WriteCommand(byte(max7219.REG_DISPLAY_TEST), 0x00)
+	driver.displayDriver.WriteCommand(byte(max7219spi.REG_DISPLAY_TEST), 0x00)
 }
 
 var ErrIllegalDigit = errors.New("Invalid digit selected")
