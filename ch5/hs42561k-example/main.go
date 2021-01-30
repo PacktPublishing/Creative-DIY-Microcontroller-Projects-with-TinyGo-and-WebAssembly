@@ -32,7 +32,7 @@ func main() {
 	time.Sleep(2 * time.Second)
 	println("startup")
 
-	displayDriver := max7219.NewDriver(machine.D4, machine.D5, machine.D6)
+	displayDriver := max7219.NewDriver(machine.D11, machine.D13, machine.D6)
 	displayDriver.Configure()
 	display := hs42561k.NewDriver(displayDriver, 4)
 	display.Configure()
