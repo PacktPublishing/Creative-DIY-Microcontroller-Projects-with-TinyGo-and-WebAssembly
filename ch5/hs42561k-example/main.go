@@ -38,23 +38,9 @@ func main() {
 	display.Configure()
 
 	println("display configured")
-	// time.Sleep(5 * time.Second)
-
-	// println("stop display test")
-	display.StopDisplayTest()
-	// time.Sleep(time.Second)
-	// println("start display test")
-	// display.StartDisplayTest()
-	// time.Sleep(5 * time.Second)
-	// println("stop display test")
-	// display.StopDisplayTest()
-	// time.Sleep(time.Second)
 
 	for {
 		for _, character := range characters {
-			// if i%2 == 1 {
-			// 	continue
-			// }
 			display.Configure()
 			println("writing", "characterValue:", character.String())
 			display.SetDigit(4, character)

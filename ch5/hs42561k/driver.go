@@ -13,10 +13,10 @@ type Driver interface {
 
 type driver struct {
 	digitNumber   uint8
-	displayDriver max7219spi.Driver
+	displayDriver max7219spi.Device
 }
 
-func NewDriver(displayDriver max7219spi.Driver, digitNumber uint8) Driver {
+func NewDriver(displayDriver max7219spi.Device, digitNumber uint8) Driver {
 	return &driver{
 		displayDriver: displayDriver,
 		digitNumber:   digitNumber,
