@@ -47,6 +47,7 @@ func main() {
 	display.StartDisplayTest()
 	time.Sleep(5 * time.Second)
 	println("stop display test")
+	display.StopDisplayTest()
 
 	for {
 		for _, character := range characters {
