@@ -32,19 +32,6 @@ func main() {
 	time.Sleep(2 * time.Second)
 	println("startup")
 
-	err := machine.SPI0.Configure(machine.SPIConfig{
-		SDO:       machine.D11,
-		SCK:       machine.D13,
-		LSBFirst:  false,
-		Frequency: 10000000,
-	})
-
-	if err != nil {
-		println("failed to configure spi:", err.Error())
-	}
-
-	println("spi configured")
-
 	displayDriver := max7219.NewDriver(machine.D4, machine.D5, machine.D6)
 	displayDriver.Configure()
 	display := hs42561k.NewDriver(displayDriver, 4)
