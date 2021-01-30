@@ -1,27 +1,27 @@
 // Datasheet: https://datasheets.maximintegrated.com/en/ds/MAX7219-MAX7221.pdf
-package max7219
+package max7219spi
 
 import (
 	"machine"
-	"time"
 )
 
 type Driver interface {
 	Configure()
-	WriteCommand(register, data byte)
+	WriteCommand(data1, data2 byte)
 }
 
 type driver struct {
+	bus  machine.SPI
 	din  machine.Pin // din
 	load machine.Pin // load
 	clk  machine.Pin // clk
 }
 
-func NewDriver(din, load, clk machine.Pin) Driver {
+// NewDriver creates a new max7219 connection. The SPI wire must already be configured
+func NewDriver(load machine.Pin, bus machine.SPI) Driver {
 	return &driver{
-		din:  din,
 		load: load,
-		clk:  clk,
+		bus:  bus,
 	}
 }
 
@@ -34,17 +34,7 @@ func (driver *driver) Configure() {
 }
 
 func (driver *driver) writeByte(data byte) {
-	for i := 8; i > 0; i-- {
-		bitMask := byte(1 << (i - 1))
-		driver.clk.Low()
-		if (data & bitMask) != 0 {
-			driver.din.High()
-		} else {
-			driver.din.Low()
-		}
-		driver.clk.High()
-		time.Sleep(6 * time.Microsecond)
-	}
+	driver.bus.Transfer(data)
 }
 
 func (driver *driver) WriteCommand(register, data byte) {

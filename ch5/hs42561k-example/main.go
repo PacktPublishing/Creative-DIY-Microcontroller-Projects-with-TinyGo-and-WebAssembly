@@ -4,8 +4,8 @@ import (
 	"machine"
 	"time"
 
-	hs42561k "github.com/PacktPublishing/Programming-Microcontrollers-and-WebAssembly-with-TinyGo/ch5/hs420561k"
-	"github.com/PacktPublishing/Programming-Microcontrollers-and-WebAssembly-with-TinyGo/ch5/max7219"
+	"github.com/PacktPublishing/Programming-Microcontrollers-and-WebAssembly-with-TinyGo/ch5/hs42561k"
+	max7219spi "github.com/PacktPublishing/Programming-Microcontrollers-and-WebAssembly-with-TinyGo/ch5/max7219-spi"
 )
 
 var characters = []hs42561k.Character{
@@ -29,10 +29,37 @@ var characters = []hs42561k.Character{
 }
 
 func main() {
-	displayDriver := max7219.NewDriver(machine.D4, machine.D5, machine.D6)
+	time.Sleep(2 * time.Second)
+	println("startup")
+
+	err := machine.SPI0.Configure(machine.SPIConfig{
+		SDO:       machine.D11,
+		SCK:       machine.D13,
+		LSBFirst:  false,
+		Frequency: 10000000,
+	})
+
+	if err != nil {
+		println("failed to configure spi:", err.Error())
+	}
+
+	println("spi configured")
+
+	displayDriver := max7219spi.NewDriver(machine.D6, machine.SPI0)
 	displayDriver.Configure()
 	display := hs42561k.NewDriver(displayDriver, 4)
 	display.Configure()
+
+	println("display configured")
+	time.Sleep(5 * time.Second)
+
+	println("stop display test")
+	display.StopDisplayTest()
+	time.Sleep(5 * time.Second)
+	println("start display test")
+	display.StartDisplayTest()
+	time.Sleep(5 * time.Second)
+	println("stop display test")
 
 	for {
 		for _, character := range characters {
