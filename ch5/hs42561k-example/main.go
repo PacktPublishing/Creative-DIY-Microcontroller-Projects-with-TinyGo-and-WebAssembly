@@ -42,12 +42,13 @@ func main() {
 
 	println("stop display test")
 	display.StopDisplayTest()
-	time.Sleep(5 * time.Second)
+	time.Sleep(time.Second)
 	println("start display test")
 	display.StartDisplayTest()
 	time.Sleep(5 * time.Second)
 	println("stop display test")
 	display.StopDisplayTest()
+	time.Sleep(time.Second)
 
 	for {
 		for _, character := range characters {
