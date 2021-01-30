@@ -7,7 +7,7 @@ import (
 
 type Driver interface {
 	Configure()
-	WriteCommand(data1, data2 byte)
+	WriteCommand(register, data byte)
 }
 
 type driver struct {
