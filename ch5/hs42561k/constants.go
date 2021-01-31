@@ -45,10 +45,10 @@ func (char Character) String() string {
 }
 
 const (
-	Zero  Character = 0 //126
-	One   Character = 1 //48
-	Two   Character = 2 // 109
-	Three Character = 3 // 121
+	Zero  Character = 0
+	One   Character = 1
+	Two   Character = 2
+	Three Character = 3
 	Four  Character = 4
 	Five  Character = 5
 	Six   Character = 6

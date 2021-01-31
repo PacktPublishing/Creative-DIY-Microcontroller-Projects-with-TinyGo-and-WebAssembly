@@ -8,7 +8,7 @@ import (
 	"github.com/PacktPublishing/Programming-Microcontrollers-and-WebAssembly-with-TinyGo/ch5/max7219spi"
 )
 
-var characters = []hs42561k.Character{
+var characters = [17]hs42561k.Character{
 	hs42561k.Zero,
 	hs42561k.One,
 	hs42561k.Two,
@@ -29,9 +29,6 @@ var characters = []hs42561k.Character{
 }
 
 func main() {
-	time.Sleep(2 * time.Second)
-	println("startup")
-
 	err := machine.SPI0.Configure(machine.SPIConfig{
 		SDO:       machine.D11,
 		SCK:       machine.D13,
@@ -47,7 +44,7 @@ func main() {
 
 	displayDriver := max7219spi.NewDevice(machine.D6, machine.SPI0)
 	displayDriver.Configure()
-	display := hs42561k.NewDriver(displayDriver, 4)
+	display := hs42561k.NewDevice(displayDriver, 4)
 	display.Configure()
 
 	println("display configured")
@@ -62,6 +59,5 @@ func main() {
 			time.Sleep(500 * time.Millisecond)
 
 		}
-		time.Sleep(time.Second)
 	}
 }
