@@ -15,28 +15,29 @@ func main() {
 	lcd := hd44780i2c.New(machine.I2C0, 0x27) // some modules have address 0x3F
 
 	lcd.Configure(hd44780i2c.Config{
-		Width:       16, // required
-		Height:      2,  // required
-		CursorOn:    false,
-		CursorBlink: false,
+		Width:  16, // required
+		Height: 2,  // required
 	})
 
-	println("print first text")
 	lcd.Print([]byte(" Hello World \n LCD 16x02"))
-	time.Sleep(3 * time.Second)
+
+	time.Sleep(5 * time.Second)
+	lcd.Print([]byte("We just print more text, to see what happens, when we overflow the 16x2 character limit"))
+
+	time.Sleep(5 * time.Second)
+	animation(lcd)
 
 }
 
 func animation(lcd hd44780i2c.Device) {
-	animation := []byte(" Hello World \n Send by \n Arduino Nano \n 33 IoT \n  powered by  \n TinyGo")
+	text := []byte(" Hello World \n Send by \n Arduino Nano \n 33 IoT \n  powered by  \n TinyGo")
 	lcd.ClearDisplay()
 	for {
-		for i := range animation {
-			lcd.Print([]byte(string(animation[i])))
+		for i := range text {
+			lcd.Print([]byte(string(text[i])))
 			time.Sleep(150 * time.Millisecond)
 		}
 		time.Sleep(2 * time.Second)
 		lcd.ClearDisplay()
-
 	}
 }

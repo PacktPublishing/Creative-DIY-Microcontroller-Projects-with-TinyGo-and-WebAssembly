@@ -30,11 +30,6 @@ func (keypad *Driver) Configure(r4, r3, r2, r1, c4, c3, c2, c1 machine.Pin) {
 	r2.Configure(outputConfig)
 	r1.Configure(outputConfig)
 
-	r4.High()
-	r3.High()
-	r2.High()
-	r1.High()
-
 	keypad.rows = [4]machine.Pin{r4, r3, r2, r1}
 
 	keypad.mapping = [4][4]string{
@@ -72,6 +67,7 @@ func (keypad *Driver) GetIndices() (int, int) {
 				keypad.lastColumn = columnIndex
 				keypad.lastRow = rowIndex
 
+				rowPin.High()
 				return keypad.lastRow, keypad.lastColumn
 			}
 
