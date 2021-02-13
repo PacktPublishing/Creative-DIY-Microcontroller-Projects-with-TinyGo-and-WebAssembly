@@ -6,6 +6,8 @@ import (
 	"github.com/Nerzal/drivers/hd44780i2c"
 )
 
+const carriageReturn = 0x0D
+
 var (
 	uart = machine.UART0
 )
@@ -43,6 +45,12 @@ func main() {
 		data, err := uart.ReadByte()
 		if err != nil {
 			println(err.Error())
+		}
+
+		if data == carriageReturn {
+			lcd.Print([]byte("\n"))
+			uart.Write([]byte("\n"))
+			continue
 		}
 
 		lcd.Print([]byte{data})

@@ -40,5 +40,11 @@ hd44780-text-display:
 hd44780-user-input:
 	tinygo flash --target=arduino-nano33 ch6/hd44780-user-input/main.go
 
+st7735:
+	tinygo flash --target=arduino-nano33 ch6/st7735/main.go
+
+game:
+	tinygo flash --target=arduino-nano33 ch6/game/main.go
+
 test:
 	tinygo test --tags "arduino_nano33" ch5/ultrasonic-distance-sensor/driver_test.go
