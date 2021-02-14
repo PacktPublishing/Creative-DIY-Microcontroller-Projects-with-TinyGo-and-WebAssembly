@@ -47,7 +47,7 @@ st7735:
 	tinygo flash --target=arduino-nano33 ch6/st7735/main.go
 
 game:
-	tinygo flash --target=arduino-nano33 ch6/game/main.go
+	tinygo flash --target=arduino-nano33 ch6/tinygame/main.go
 
 test:
 	tinygo test --tags "arduino_nano33" ch5/ultrasonic-distance-sensor/driver_test.go
