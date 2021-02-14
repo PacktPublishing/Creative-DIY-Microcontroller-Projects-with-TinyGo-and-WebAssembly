@@ -39,19 +39,17 @@ func main() {
 	display.FillRectangle(width/2, 0, width/2, height/2, red)
 	display.FillRectangle(0, height/2, width/2, height/2, green)
 	display.FillRectangle(width/2, height/2, width/2, height/2, blue)
-	display.FillRectangle(width/4, height/4, width/2, height/2, black)
 
 	time.Sleep(3 * time.Second)
-
 	display.FillScreen(black)
 
 	i := 0
 	for {
 		display.FillScreen(black)
 
-		tinyfont.WriteLineRotated(&display, &freemono.Bold9pt7b, 110, 145, "TinyDraw", red, tinyfont.ROTATION_180)
-
 		tinydraw.FilledRectangle(&display, 0, 0, 128, 32, white)
+
+		tinyfont.WriteLineRotated(&display, &freemono.Bold9pt7b, 110, 145, "TinyDraw", red, tinyfont.ROTATION_180)
 
 		tinydraw.FilledCircle(&display, 64, 96, 32, green)
 		tinydraw.FilledCircle(&display, 64, 96, 24, blue)

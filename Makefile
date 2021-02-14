@@ -40,6 +40,9 @@ hd44780-text-display:
 hd44780-user-input:
 	tinygo flash --target=arduino-nano33 ch6/hd44780-user-input/main.go
 
+hd44780-cli:
+	tinygo flash --target=arduino-nano33 ch6/hd44780-cli/main.go
+
 st7735:
 	tinygo flash --target=arduino-nano33 ch6/st7735/main.go
 

@@ -102,7 +102,7 @@ func updateGame(display st7735.Device) {
 				bulletPosY = 0
 			}
 
-			if enemyPosX >= 56 && enemyPosX <= 64 {
+			if enemyPosX >= 54 && enemyPosX <= 64 {
 				if enemyPosY >= bulletPosY && enemyPosY <= bulletPosY+bulletSize {
 					currentScore++
 

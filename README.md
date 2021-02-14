@@ -46,3 +46,7 @@ Install this to get the dll you need: https://sourceforge.net/projects/libusb-wi
 ## DataSheets
 
 [MAX7219](https://datasheets.maximintegrated.com/en/ds/MAX7219-MAX7221.pdf)
+
+[HD44780](https://cdn.shopify.com/s/files/1/1509/1638/files/HD44780_1602_Blaues_LCD_Display_mit_Serielle_Schnittstelle_I2C_Bundle_Datenblatt_AZ-Delivery_Vertriebs_GmbH.pdf?v=1591601507)
+
+[ST7735](https://cdn.shopify.com/s/files/1/1509/1638/files/1_8_inch_OLED_Datenblatt_04323b18-84e6-4e7b-bf7d-3fa56a308f66.pdf?633464727103137069)
