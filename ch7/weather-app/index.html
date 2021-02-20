@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+
+<html>
+
+<head>
+    <meta charset="utf-8" />
+    <title>TinyGo Weather Station</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <script src="wasm_exec.js" defer></script>
+    <script src="wasm.js" defer></script>
+</head>
+
+<body>
+    <h1>TinyGo Weather Station</h1>
+    <p>Events:</p>
+
+    <table>
+        <thead>
+            <tr>
+                <th>TimeStamp</th>
+                <th>Message</th>
+                <th>Temperature</th>
+                <th>Pressure</th>
+                <th>Humidity</th>
+            </tr>
+        </thead>
+        <tbody id="tbody">
+        </tbody>
+    </table>
+
+</body>
+
+</html>

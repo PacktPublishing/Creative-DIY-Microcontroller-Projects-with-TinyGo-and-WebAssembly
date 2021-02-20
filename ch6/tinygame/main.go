@@ -10,7 +10,6 @@ import (
 )
 
 var buttonPressed bool
-var buttonPin = machine.D9
 
 const enemySize = 8
 const bulletSize = 4
@@ -29,7 +28,9 @@ var (
 )
 
 func main() {
+	var buttonPin = machine.D9
 	buttonPin.Configure(machine.PinConfig{Mode: machine.PinInput})
+
 	updateHighscore(0)
 
 	machine.SPI0.Configure(machine.SPIConfig{
@@ -44,7 +45,7 @@ func main() {
 	display := st7735.New(machine.SPI0, resetPin, dcPin, csPin, backLightPin)
 	display.Configure(st7735.Config{})
 
-	go checkButton()
+	go checkButton(buttonPin)
 
 	for {
 		display.FillScreen(black)
@@ -52,7 +53,7 @@ func main() {
 	}
 }
 
-func checkButton() {
+func checkButton(buttonPin machine.Pin) {
 	for {
 		if buttonPin.Get() {
 			buttonPressed = true
@@ -77,7 +78,6 @@ func updateGame(display st7735.Device) {
 	enemyPosY = height - enemySize
 
 	var bulletPosY int16
-	bulletPosY = 0
 
 	shotFired := false
 	canFire := true
