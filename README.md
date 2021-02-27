@@ -86,4 +86,4 @@ eclipse-mosquitto
 
  For later starts just use:
 
- > docker start eclipse-mosquitto
+ > docker start mosquitto
