@@ -65,5 +65,14 @@ wasm-app: clean-wasm wasm_exec
 	cp ch7/weather-app/index.html ch7/html/
 	go run ch7/wasm-server/main.go
 
+start-mqtt-broker:
+	docker start mosquitto
+
+weather-station-mqtt:
+	tinygo flash --target=arduino-nano33 ch7/weather-station-mqtt/main.go
+
 test:
 	tinygo test --tags "arduino_nano33" ch5/ultrasonic-distance-sensor/driver_test.go
+
+serial: 
+	cat /dev/ttyACM0

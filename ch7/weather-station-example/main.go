@@ -35,18 +35,18 @@ func main() {
 	sensor := bme280.New(machine.I2C0)
 	sensor.Configure()
 
-	weatherStation := weatherstation.New(sensor, display)
+	weatherStation := weatherstation.New(&sensor, &display)
 
 	weatherStation.CheckSensorConnectivity()
 
 	for {
 
-		temperature, pressure, humidity, altitude, err := weatherStation.ReadData()
+		temperature, pressure, humidity, err := weatherStation.ReadData()
 		if err != nil {
 			printError("could not read sensor data:", err)
 		}
 
-		weatherStation.DisplayData(temperature, pressure, humidity, altitude)
+		weatherStation.DisplayData(temperature, pressure, humidity)
 
 		time.Sleep(2 * time.Second)
 

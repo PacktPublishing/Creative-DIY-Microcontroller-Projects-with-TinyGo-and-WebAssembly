@@ -6,12 +6,29 @@
     <meta charset="utf-8" />
     <title>TinyGo Weather Station</title>
     <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <script src="wasm_exec.js" defer></script>
-    <script src="wasm.js" defer></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/paho-mqtt/1.0.1/mqttws31.min.js" type="text/javascript"></script>
+    <script src="wasm_exec.js" type="text/javascript"></script>
+    <script src="wasm.js" type="text/javascript"></script>
 </head>
 
 <body>
     <h1>TinyGo Weather Station</h1>
+
+    <p>Alerts:</p>
+    <table>
+        <thead>
+            <tr>
+                <th>TimeStamp</th>
+                <th>Message</th>
+                <th>Pressure Difference</th>
+                <th>Time span</th>
+            </tr>
+        </thead>
+        <tbody id="tbody-alerts">
+        </tbody>
+    </table>
+
+
     <p>Events:</p>
 
     <table>
@@ -24,28 +41,7 @@
                 <th>Humidity</th>
             </tr>
         </thead>
-        <tbody id="tbody">
-            <tr>
-                <td>16:40:32</td>
-                <td>Sensor Reading</td>
-                <td>22.23°C</td>
-                <td>1000.53 Hpa</td>
-                <td>57,92%</td>
-            </tr>
-            <tr>
-                <td>16:40:32</td>
-                <td>Sensor Reading</td>
-                <td>22.23°C</td>
-                <td>1000.53 Hpa</td>
-                <td>57,92%</td>
-            </tr>
-            <tr>
-                <td>16:40:32</td>
-                <td>Sensor Reading</td>
-                <td>22.23°C</td>
-                <td>1000.53 Hpa</td>
-                <td>57,92%</td>
-            </tr>
+        <tbody id="tbody-data">
         </tbody>
     </table>
 

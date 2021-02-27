@@ -24,6 +24,13 @@ Programming Microcontrollers and WebAssembly with TinyGo, published by Packt
 
 [VSCode TinyGo Extension](https://marketplace.visualstudio.com/items?itemName=tinygo.vscode-tinygo)
 
+## Required Go packages
+
+```shell
+go get -u tinygo.org/x/drivers
+go get -u github.com/eclipse/paho.mqtt.golang
+```
+
 ## Required Hardware
 
 [Arduino UNO](https://store.arduino.cc/arduino-uno-rev3)
@@ -36,12 +43,24 @@ Programming Microcontrollers and WebAssembly with TinyGo, published by Packt
 
 #### exit status 3221225781
 
-When tinygo flash returns an error like this: 
+When tinygo flash returns an error like this:
 
 > error: failed to flash C:\Users\Enrico\AppData\Local\Temp\tinygo393394635\main.hex: exit status 3221225781
  
 This is most likely due to a missing .dll file.
 Install this to get the dll you need: https://sourceforge.net/projects/libusb-win32/
+
+### MacOS
+
+If you have problems to find out, under which name the Arduino registers on your computer, try the following command: 
+
+> ls /dev | grep usb
+
+You are going to see an output like:
+
+> /dev/tty.usbmodem132408
+
+This is the device you can put in the `--p` flag when using `tinygo flash` command
 
 ## DataSheets
 
@@ -52,3 +71,19 @@ Install this to get the dll you need: https://sourceforge.net/projects/libusb-wi
 [ST7735](https://cdn.shopify.com/s/files/1/1509/1638/files/1_8_inch_OLED_Datenblatt_04323b18-84e6-4e7b-bf7d-3fa56a308f66.pdf?633464727103137069)
 
 [bmp280](https://www.bosch-sensortec.com/media/boschsensortec/downloads/datasheets/bst-bmp280-ds001.pdf)
+
+## MQTT Broker
+
+If you start the broker for the first time run the following command.
+
+docker run -it --name mosquitto \
+--net=host \
+--restart=always \
+-p 1883:1883 \
+-p 9001:9001 \
+-v ~/go/src/github.com/PacktPublishing/Programming-Microcontrollers-and-WebAssembly-with-TinyGo/ch7/mosquitto/config/mosquitto.conf:/mosquitto/config/mosquitto.conf:ro \
+eclipse-mosquitto
+
+ For later starts just use:
+
+ > docker start eclipse-mosquitto

@@ -1,7 +1,7 @@
 package main
 
 import (
-	"fmt"
+	"strconv"
 	"strings"
 	"syscall/js"
 	"time"
@@ -17,59 +17,127 @@ type SensorEvent struct {
 	Humidity    float32
 }
 
-var sensorEvents []SensorEvent
+type AlertEvent struct {
+	TimeStamp string
+	Message   string
+	Diff      string
+	TimeSpan  string
+}
 
-func splitter(this js.Value, args []js.Value) interface{} {
-	values := strings.Split(args[0].String(), ",")
+type MQTTMessage struct {
+	Topic       string
+	SensorEvent SensorEvent
+}
 
-	result := make([]interface{}, 0)
-	for _, each := range values {
-		result = append(result, each)
-	}
+var dataMessages = make(chan SensorEvent)
+var alertMessages = make(chan AlertEvent)
 
-	return js.ValueOf(result)
+func main() {
+	js.Global().Set("sensorDataHandler", js.FuncOf(sensorDataHandler))
+	js.Global().Set("alertHandler", js.FuncOf(alertHandler))
+
+	go handleSensorEvents(dataMessages)
+	go handleAlertEvents(alertMessages)
+	// go testAddToTable(sensorEvents)
+
+	wait := make(chan struct{}, 0)
+	<-wait
 }
 
 func handleSensorEvents(channel chan SensorEvent) {
 	for {
 		event := <-channel
-		println("received sensor event")
-		sensorEvents = append(sensorEvents, event)
+		println("adding sensor event to table")
 
-		tableBody := dom.GetElementByID("tbody")
+		tableBody := dom.GetElementByID("tbody-data")
 
 		tr := dom.CreateElement("tr")
 
-		addTd(tr, event.TimeStamp)
-		addTd(tr, event.Message)
-		addTdf(tr, "%v°C", event.Temperature)
-		addTdf(tr, "%v hPa", event.Pressure)
-		addTdf(tr, "%v", event.Humidity)
+		dom.AddTd(tr, event.TimeStamp)
+		dom.AddTd(tr, event.Message)
+		dom.AddTdf(tr, "%v°C", event.Temperature)
+		dom.AddTdf(tr, "%v hPa", event.Pressure)
+		dom.AddTdf(tr, "%v", event.Humidity)
 
 		dom.AppendChild(tableBody, tr)
-
+		println("successfully added sensor event to table")
 	}
 }
 
-func addTd(tr js.Value, value interface{}) {
-	td := dom.CreateElement("td")
-	dom.SetInnerHTML(td, value)
-	dom.AppendChild(tr, td)
+func handleAlertEvents(channel chan AlertEvent) {
+	for {
+		event := <-channel
+		println("adding sensor event to table")
+
+		tableBody := dom.GetElementByID("tbody-alerts")
+
+		tr := dom.CreateElement("tr")
+
+		dom.AddTd(tr, event.TimeStamp)
+		dom.AddTd(tr, event.Message)
+		dom.AddTdf(tr, "%s hPa", event.Diff)
+		dom.AddTdf(tr, "%s", event.TimeSpan)
+
+		dom.AppendChild(tableBody, tr)
+		println("successfully added sensor event to table")
+	}
 }
 
-func addTdf(tr js.Value, formatString string, value interface{}) {
-	td := dom.CreateElement("td")
-	dom.SetInnerHTML(td, fmt.Sprintf(formatString, value))
-	dom.AppendChild(tr, td)
+func alertHandler(this js.Value, args []js.Value) interface{} {
+	println("mqtt: alert message received")
+
+	// payload: message#diff#timespan
+	message := args[0].String()
+
+	println("message:", message)
+	splittedStrings := strings.Split(message, "#")
+	println("splitted string length:", len(splittedStrings))
+
+	alertMessages <- AlertEvent{
+		TimeStamp: time.Now().Format(time.RFC1123),
+		Message:   splittedStrings[0],
+		Diff:      splittedStrings[1],
+		TimeSpan:  splittedStrings[2],
+	}
+
+	return nil
 }
 
-func main() {
-	sensorEvents := make(chan SensorEvent)
-	go handleSensorEvents(sensorEvents)
-	go testAddToTable(sensorEvents)
+func sensorDataHandler(this js.Value, args []js.Value) interface{} {
+	println("mqtt: data message received")
 
-	wait := make(chan struct{}, 0)
-	<-wait
+	message := args[0].String()
+
+	println("message:", message)
+	splittedStrings := strings.Split(message, "#")
+
+	temperature, err := strconv.ParseFloat(splittedStrings[1], 32)
+	if err != nil {
+		println("failed to parse temperature from message")
+		println(message)
+	}
+
+	pressure, err := strconv.ParseFloat(splittedStrings[2], 32)
+	if err != nil {
+		println("failed to parse pressure from message")
+		println(message)
+	}
+
+	humidity, err := strconv.ParseFloat(splittedStrings[3], 32)
+	if err != nil {
+		println("failed to parse humidity from message")
+		println(message)
+	}
+
+	dataMessages <- SensorEvent{
+		TimeStamp:   time.Now().Format(time.RFC1123),
+		Message:     splittedStrings[0],
+		Temperature: float32(temperature),
+		Pressure:    float32(pressure),
+		Humidity:    float32(humidity),
+	}
+
+	return nil
 }
 
 func testAddToTable(messages chan SensorEvent) {

@@ -1,6 +1,9 @@
 package dom
 
-import "syscall/js"
+import (
+	"fmt"
+	"syscall/js"
+)
 
 func GetDocument() js.Value {
 	return js.Global().Get("document")
@@ -22,4 +25,16 @@ func AppendChild(parent js.Value, child js.Value) {
 
 func SetInnerHTML(object js.Value, value interface{}) {
 	object.Set("innerHTML", value)
+}
+
+func AddTd(tr js.Value, value interface{}) {
+	td := CreateElement("td")
+	SetInnerHTML(td, value)
+	AppendChild(tr, td)
+}
+
+func AddTdf(tr js.Value, formatString string, value interface{}) {
+	td := CreateElement("td")
+	SetInnerHTML(td, fmt.Sprintf(formatString, value))
+	AppendChild(tr, td)
 }
