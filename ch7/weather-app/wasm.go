@@ -9,7 +9,7 @@ import (
 	"github.com/PacktPublishing/Programming-Microcontrollers-and-WebAssembly-with-TinyGo/ch7/dom"
 )
 
-type SensorEvent struct {
+type sensorEvent struct {
 	TimeStamp   string
 	Message     string
 	Temperature float32
@@ -17,20 +17,15 @@ type SensorEvent struct {
 	Humidity    float32
 }
 
-type AlertEvent struct {
+type alertEvent struct {
 	TimeStamp string
 	Message   string
 	Diff      string
 	TimeSpan  string
 }
 
-type MQTTMessage struct {
-	Topic       string
-	SensorEvent SensorEvent
-}
-
-var dataMessages = make(chan SensorEvent)
-var alertMessages = make(chan AlertEvent)
+var dataMessages = make(chan sensorEvent)
+var alertMessages = make(chan alertEvent)
 
 func main() {
 	js.Global().Set("sensorDataHandler", js.FuncOf(sensorDataHandler))
@@ -44,15 +39,13 @@ func main() {
 	<-wait
 }
 
-func handleSensorEvents(channel chan SensorEvent) {
+func handleSensorEvents(channel chan sensorEvent) {
 	for {
 		event := <-channel
 		println("adding sensor event to table")
 
 		tableBody := dom.GetElementByID("tbody-data")
-
 		tr := dom.CreateElement("tr")
-
 		dom.AddTd(tr, event.TimeStamp)
 		dom.AddTd(tr, event.Message)
 		dom.AddTdf(tr, "%v°C", event.Temperature)
@@ -64,15 +57,13 @@ func handleSensorEvents(channel chan SensorEvent) {
 	}
 }
 
-func handleAlertEvents(channel chan AlertEvent) {
+func handleAlertEvents(channel chan alertEvent) {
 	for {
 		event := <-channel
 		println("adding sensor event to table")
 
 		tableBody := dom.GetElementByID("tbody-alerts")
-
 		tr := dom.CreateElement("tr")
-
 		dom.AddTd(tr, event.TimeStamp)
 		dom.AddTd(tr, event.Message)
 		dom.AddTdf(tr, "%s hPa", event.Diff)
@@ -93,7 +84,7 @@ func alertHandler(this js.Value, args []js.Value) interface{} {
 	splittedStrings := strings.Split(message, "#")
 	println("splitted string length:", len(splittedStrings))
 
-	alertMessages <- AlertEvent{
+	alertMessages <- alertEvent{
 		TimeStamp: time.Now().Format(time.RFC1123),
 		Message:   splittedStrings[0],
 		Diff:      splittedStrings[1],
@@ -129,7 +120,7 @@ func sensorDataHandler(this js.Value, args []js.Value) interface{} {
 		println(message)
 	}
 
-	dataMessages <- SensorEvent{
+	dataMessages <- sensorEvent{
 		TimeStamp:   time.Now().Format(time.RFC1123),
 		Message:     splittedStrings[0],
 		Temperature: float32(temperature),
@@ -140,9 +131,9 @@ func sensorDataHandler(this js.Value, args []js.Value) interface{} {
 	return nil
 }
 
-func testAddToTable(messages chan SensorEvent) {
+func testAddToTable(messages chan sensorEvent) {
 	for {
-		messages <- SensorEvent{
+		messages <- sensorEvent{
 			TimeStamp:   time.Now().Format(time.RFC3339),
 			Message:     "Sensor reading",
 			Temperature: 24.32,

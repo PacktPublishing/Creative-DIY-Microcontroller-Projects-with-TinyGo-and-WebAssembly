@@ -5,18 +5,15 @@ import (
 	"machine"
 	"time"
 
+	"github.com/Nerzal/drivers/wifinina"
 	mqttclient "github.com/PacktPublishing/Programming-Microcontrollers-and-WebAssembly-with-TinyGo/ch7/mqtt-client"
 	weatherstation "github.com/PacktPublishing/Programming-Microcontrollers-and-WebAssembly-with-TinyGo/ch7/weather-station"
 	"github.com/PacktPublishing/Programming-Microcontrollers-and-WebAssembly-with-TinyGo/ch7/wifi"
 	"tinygo.org/x/drivers/bme280"
-	"tinygo.org/x/drivers/wifinina"
 )
 
-// insert your network ssid
-const ssid = "changeMe"
-
-// insert your network password, leave empty, if you access an open network
-const password = "changeME"
+const ssid = "NoobyGames"
+const password = "IchHasseLangeWlanZugangsDaten1312!"
 
 var (
 	temperature float64
@@ -25,8 +22,10 @@ var (
 )
 
 func printError(message string, err error) {
-	println(message, err.Error())
-	time.Sleep(time.Second)
+	for {
+		println(message, err.Error())
+		time.Sleep(time.Second)
+	}
 }
 
 func main() {
@@ -48,7 +47,6 @@ func main() {
 	}
 
 	println("checking firmware")
-
 	wifiClient.CheckHardware()
 
 	wifiClient.ConnectWifi()
@@ -103,6 +101,8 @@ func publishAlert(mqttClient mqttclient.Client, wifiClient wifi.Client, weatherS
 	// source http://www.bohlken.net/airpressure2.htm
 	for {
 		time.Sleep(time.Hour)
+
+		weatherStation.SavePressureReading(pressure)
 
 		alert, diff := weatherStation.CheckAlert(2, 1)
 		if alert {
