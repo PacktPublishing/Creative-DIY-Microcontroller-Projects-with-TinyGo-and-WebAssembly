@@ -9,7 +9,7 @@ import (
 
 type Client interface {
 	ConnectBroker() error
-	PublishMessage(topic string, message []byte) error
+	PublishMessage(topic string, message []byte, qos uint8, retain bool) error
 }
 
 type client struct {
@@ -39,8 +39,8 @@ func (client *client) ConnectBroker() error {
 	return nil
 }
 
-func (client *client) PublishMessage(topic string, message []byte) error {
-	token := client.mqttClient.Publish(topic, 0, false, message)
+func (client *client) PublishMessage(topic string, message []byte, qos uint8, retain bool) error {
+	token := client.mqttClient.Publish(topic, qos, retain, message)
 	if token.WaitTimeout(time.Second) && token.Error() != nil {
 		return token.Error()
 	}
@@ -48,12 +48,10 @@ func (client *client) PublishMessage(topic string, message []byte) error {
 	return nil
 }
 
-// Returns an int >= min, < max
 func randomInt(min, max int) int {
 	return min + rand.Intn(max-min)
 }
 
-// Generate a random string of A-Z chars with len = l
 func randomString(len int) string {
 	bytes := make([]byte, len)
 	for i := 0; i < len; i++ {

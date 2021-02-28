@@ -70,7 +70,7 @@ This is the device you can put in the `--p` flag when using `tinygo flash` comma
 
 [ST7735](https://cdn.shopify.com/s/files/1/1509/1638/files/1_8_inch_OLED_Datenblatt_04323b18-84e6-4e7b-bf7d-3fa56a308f66.pdf?633464727103137069)
 
-[bmp280](https://www.bosch-sensortec.com/media/boschsensortec/downloads/datasheets/bst-bmp280-ds001.pdf)
+[bme280](http://www.embeddedadventures.com/datasheets/BME280.pdf)
 
 ## MQTT Broker
 

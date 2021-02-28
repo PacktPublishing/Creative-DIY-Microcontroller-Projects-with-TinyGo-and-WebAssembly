@@ -49,64 +49,23 @@ func (service *service) ReadData() (temperature, pressure, humidity float64, err
 		return
 	}
 
-	temperature = float64(temp) / 1000
+	temperature = float64(temp)
 
 	press, err := service.sensor.ReadPressure()
 	if err != nil {
 		return
 	}
 
-	pressure = float64(press) / 100000
+	pressure = float64(press)
 
 	hum, err := service.sensor.ReadHumidity()
 	if err != nil {
 		return
 	}
 
-	humidity = float64(hum) / 100
+	humidity = float64(hum)
 
 	return
-}
-
-func (service *service) SavePressureReading(pressure float64) {
-	if !service.firstReadingSaved {
-		for i := 0; i < len(service.readings); i++ {
-			service.readings[service.readingsIndex] = pressure
-			service.readingsIndex++
-			if service.readingsIndex == 5 {
-				service.readingsIndex = 0
-			}
-		}
-
-		service.firstReadingSaved = true
-		return
-	}
-
-	service.readings[service.readingsIndex] = pressure
-	service.readingsIndex++
-	if service.readingsIndex == 5 {
-		service.readingsIndex = 0
-	}
-}
-
-func (service *service) CheckAlert(alertThreshold float64, timeSpan int8) (bool, float64) {
-	currentIndex := service.readingsIndex - 1
-	if currentIndex < 0 {
-		currentIndex = 5
-	}
-
-	currentReading := service.readings[currentIndex]
-
-	comparisonIndex := currentIndex - timeSpan
-	if comparisonIndex < 0 {
-		comparisonIndex = 5 + comparisonIndex
-	}
-
-	comparisonReading := service.readings[comparisonIndex]
-
-	diff := comparisonReading - currentReading
-
-	return diff >= alertThreshold, diff
 }
 
 func (service *service) CheckSensorConnectivity() {
@@ -129,19 +88,63 @@ func (service *service) DisplayData(temperature, pressure, humidity float64) {
 	tinyfont.WriteLineRotated(service.display, &freemono.Bold9pt7b, 110, 3, "Tiny Weather", white, tinyfont.ROTATION_90)
 
 	println("formatting temp")
-	tempString := "Temp:" + strconv.FormatFloat(float64(temperature)/1000, 'f', 2, 64) + "C"
+
+	temp, press, hum := service.GetFormattedReadings(temperature, pressure, humidity)
+
+	tempString := "Temp:" + temp + "C"
 	tinyfont.WriteLineRotated(service.display, &freemono.Bold9pt7b, 65, 3, tempString, white, tinyfont.ROTATION_90)
 
-	pressString := "P:" + strconv.FormatFloat(float64(pressure)/100000, 'f', 2, 64) + "hPa"
+	pressString := "P:" + press + "hPa"
 	tinyfont.WriteLineRotated(service.display, &freemono.Bold9pt7b, 45, 3, pressString, white, tinyfont.ROTATION_90)
 
-	humString := "Hum:" + strconv.FormatFloat(float64(humidity)/100, 'f', 2, 64) + "%"
+	humString := "Hum:" + hum + "%"
 	tinyfont.WriteLineRotated(service.display, &freemono.Bold9pt7b, 25, 3, humString, white, tinyfont.ROTATION_90)
 }
 
 func (service *service) GetFormattedReadings(temperature, pressure, humidity float64) (temp, press, hum string) {
-	temp = strconv.FormatFloat(temperature, 'f', 2, 64)
-	press = strconv.FormatFloat(pressure, 'f', 2, 64)
-	hum = strconv.FormatFloat(humidity, 'f', 2, 64)
+	temp = strconv.FormatFloat(temperature/1000, 'f', 2, 64)
+	press = strconv.FormatFloat(pressure/100000, 'f', 2, 64)
+	hum = strconv.FormatFloat(humidity/100, 'f', 2, 64)
 	return
+}
+
+func (service *service) SavePressureReading(pressure float64) {
+	if !service.firstReadingSaved {
+		for i := 0; i < len(service.readings); i++ {
+			service.readings[service.readingsIndex] = pressure
+			service.readingsIndex++
+			if service.readingsIndex == 5 {
+				service.readingsIndex = 0
+			}
+		}
+
+		service.firstReadingSaved = true
+		return
+	}
+
+	service.readings[service.readingsIndex] = pressure
+	service.readingsIndex++
+	if service.readingsIndex == 6 {
+		service.readingsIndex = 0
+	}
+}
+
+func (service *service) CheckAlert(alertThreshold float64, timeSpan int8) (bool, float64) {
+	currentIndex := service.readingsIndex - 1
+	if currentIndex < 0 {
+		currentIndex = 5
+	}
+
+	currentReading := service.readings[currentIndex]
+
+	comparisonIndex := currentIndex - timeSpan
+	if comparisonIndex < 0 {
+		comparisonIndex = 5 + comparisonIndex
+	}
+
+	comparisonReading := service.readings[comparisonIndex]
+
+	diff := comparisonReading - currentReading
+
+	return diff >= alertThreshold, diff
 }

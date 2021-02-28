@@ -77,17 +77,7 @@ func (client *client) CheckHardware() {
 func (client *client) ConnectWifi() {
 	println("trying to connect to network: ", client.ssid)
 
-	// no lo power mode
-	err := client.wifi.SetPowerMode(0)
-	if err != nil {
-		println("could not set deactivate low power mode", err.Error())
-	}
-
 	client.connect()
-
-	if err != nil {
-		println("could not set passphrase", err.Error())
-	}
 
 	for {
 		time.Sleep(1 * time.Second)

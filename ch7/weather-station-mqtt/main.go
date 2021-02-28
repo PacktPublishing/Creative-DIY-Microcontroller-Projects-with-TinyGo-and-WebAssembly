@@ -75,6 +75,28 @@ func main() {
 
 }
 
+func publishSensorData(mqttClient mqttclient.Client, wifiClient wifi.Client, weatherStation weatherstation.Service) {
+	for {
+		time.Sleep(time.Minute)
+		println("publishing sensor data")
+
+		tempString, pressString, humidityString := weatherStation.GetFormattedReadings(temperature, pressure, humidity)
+		message := []byte(fmt.Sprintf("%s#%s#%s#%s", "sensor readings", tempString, pressString, humidityString))
+
+		err := mqttClient.PublishMessage("weather/data", message, 0, true)
+		if err != nil {
+			switch err.(type) {
+			case wifinina.Error:
+				println(err.Error())
+				wifiClient.ConnectWifi()
+				mqttClient.ConnectBroker()
+			default:
+				println(err.Error())
+			}
+		}
+	}
+}
+
 func publishAlert(mqttClient mqttclient.Client, wifiClient wifi.Client, weatherStation weatherstation.Service) {
 	// pressure loss of more than 6 hPa / 3h -> possible storm incoming
 	// 							  2 hpa / 1h -> possible storm incoming
@@ -84,7 +106,7 @@ func publishAlert(mqttClient mqttclient.Client, wifiClient wifi.Client, weatherS
 
 		alert, diff := weatherStation.CheckAlert(2, 1)
 		if alert {
-			err := mqttClient.PublishMessage("weather/alert", []byte(fmt.Sprintf("%s#%v#%s", "possible storm incoming", diff, "1 hour")))
+			err := mqttClient.PublishMessage("weather/alert", []byte(fmt.Sprintf("%s#%v#%s", "possible storm incoming", diff, "1 hour")), 0, true)
 			if err != nil {
 				switch err.(type) {
 				case wifinina.Error:
@@ -102,7 +124,7 @@ func publishAlert(mqttClient mqttclient.Client, wifiClient wifi.Client, weatherS
 			continue
 		}
 
-		err := mqttClient.PublishMessage("weather/alert", []byte(fmt.Sprintf("%s#%v#%s", "possible storm incoming", diff, "3 hours")))
+		err := mqttClient.PublishMessage("weather/alert", []byte(fmt.Sprintf("%s#%v#%s", "possible storm incoming", diff, "3 hours")), 0, true)
 		if err != nil {
 			switch err.(type) {
 			case wifinina.Error:
@@ -114,27 +136,5 @@ func publishAlert(mqttClient mqttclient.Client, wifiClient wifi.Client, weatherS
 			}
 		}
 
-	}
-}
-
-func publishSensorData(mqttClient mqttclient.Client, wifiClient wifi.Client, weatherStation weatherstation.Service) {
-	for {
-		time.Sleep(time.Minute)
-		println("publishing sensor data")
-
-		tempString, pressString, humidityString := weatherStation.GetFormattedReadings(temperature, pressure, humidity)
-		message := []byte(fmt.Sprintf("%s#%s#%s#%s", "sensor readings", tempString, pressString, humidityString))
-
-		err := mqttClient.PublishMessage("weather/data", message)
-		if err != nil {
-			switch err.(type) {
-			case wifinina.Error:
-				println(err.Error())
-				wifiClient.ConnectWifi()
-				mqttClient.ConnectBroker()
-			default:
-				println(err.Error())
-			}
-		}
 	}
 }

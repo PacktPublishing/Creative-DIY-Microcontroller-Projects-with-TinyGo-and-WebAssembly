@@ -9,11 +9,6 @@ import (
 	"tinygo.org/x/drivers/st7735"
 )
 
-func printError(message string, err error) {
-	println(message, err.Error())
-	time.Sleep(time.Second)
-}
-
 func main() {
 	time.Sleep(5 * time.Second)
 
@@ -43,7 +38,9 @@ func main() {
 
 		temperature, pressure, humidity, err := weatherStation.ReadData()
 		if err != nil {
-			printError("could not read sensor data:", err)
+			println("could not read sensor data:", err)
+			time.Sleep(1 * time.Second)
+			continue
 		}
 
 		weatherStation.DisplayData(temperature, pressure, humidity)
