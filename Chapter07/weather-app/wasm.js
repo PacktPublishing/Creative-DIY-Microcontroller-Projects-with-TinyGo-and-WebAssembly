@@ -4,10 +4,8 @@ const WASM_URL = 'wasm.wasm';
 var wasm;
 
 var mqtt;
-const reconnectTimeout = 2000;
 const host = "127.0.0.1";
 const port = 9001
-var payload = ""
 
 function onConnect() {
     console.log("Successfully connected to mqtt broker");
@@ -25,7 +23,7 @@ function onConnectionLost(responseObject) {
 function onMessageArrived(message) {
     console.log("onMessageArrived:" + message.payloadString);
 
-    payload = message.payloadString
+    var payload = message.payloadString
     if (payload.indexOf("possible storm incoming") !== -1) {
         alertHandler(payload)
     } else {

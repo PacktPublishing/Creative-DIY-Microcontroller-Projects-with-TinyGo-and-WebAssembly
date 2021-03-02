@@ -22,7 +22,9 @@ func NewBuzzer(pin machine.Pin) Buzzer {
 
 // Configure Buzzer as outout
 func (buzzer buzzer) Configure() {
-	buzzer.pin.Configure(machine.PinConfig{Mode: machine.PinOutput})
+	buzzer.pin.Configure(machine.PinConfig{
+		Mode: machine.PinOutput,
+	})
 }
 
 func (buzzer buzzer) Beep(highDuration time.Duration, amount uint8) {

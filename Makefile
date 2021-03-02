@@ -52,15 +52,11 @@ game:
 weather:
 	tinygo flash --target=arduino-nano33 ch7/weather-station-example/main.go
 
-clean-wasm:
+wasm-app:
 	rm -rf ch7/html
 	mkdir ch7/html
-
-wasm_exec:
-	cp ch7/weather-app/wasm_exec.js ch7/html/
-
-wasm-app: clean-wasm wasm_exec
 	tinygo build -o ch7/html/wasm.wasm -target wasm -no-debug ch7/weather-app/wasm.go
+	cp ch7/weather-app/wasm_exec.js ch7/html/
 	cp ch7/weather-app/wasm.js ch7/html/
 	cp ch7/weather-app/index.html ch7/html/
 	go run ch7/wasm-server/main.go
