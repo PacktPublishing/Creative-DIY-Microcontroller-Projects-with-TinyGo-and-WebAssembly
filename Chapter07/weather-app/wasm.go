@@ -5,7 +5,7 @@ import (
 	"syscall/js"
 	"time"
 
-	"github.com/PacktPublishing/Programming-Microcontrollers-and-WebAssembly-with-TinyGo/ch7/dom"
+	"github.com/PacktPublishing/Programming-Microcontrollers-and-WebAssembly-with-TinyGo/Chapter07/dom"
 )
 
 type sensorEvent struct {

@@ -4,8 +4,8 @@ import (
 	"machine"
 	"time"
 
-	"github.com/PacktPublishing/Programming-Microcontrollers-and-WebAssembly-with-TinyGo/ch5/hs42561k"
-	"github.com/PacktPublishing/Programming-Microcontrollers-and-WebAssembly-with-TinyGo/ch5/max7219spi"
+	"github.com/PacktPublishing/Programming-Microcontrollers-and-WebAssembly-with-TinyGo/Chapter05/hs42561k"
+	"github.com/PacktPublishing/Programming-Microcontrollers-and-WebAssembly-with-TinyGo/Chapter05/max7219spi"
 )
 
 var characters = [17]hs42561k.Character{

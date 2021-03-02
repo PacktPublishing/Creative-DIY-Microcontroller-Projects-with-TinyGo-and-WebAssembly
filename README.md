@@ -81,7 +81,7 @@ docker run -it --name mosquitto \
 --restart=always \
 -p 1883:1883 \
 -p 9001:9001 \
--v ~/go/src/github.com/PacktPublishing/Programming-Microcontrollers-and-WebAssembly-with-TinyGo/ch7/mosquitto/config/mosquitto.conf:/mosquitto/config/mosquitto.conf:ro \
+-v ~/go/src/github.com/PacktPublishing/Programming-Microcontrollers-and-WebAssembly-with-TinyGo/Chapter07/mosquitto/config/mosquitto.conf:/mosquitto/config/mosquitto.conf:ro \
 eclipse-mosquitto
 
  For later starts just use:

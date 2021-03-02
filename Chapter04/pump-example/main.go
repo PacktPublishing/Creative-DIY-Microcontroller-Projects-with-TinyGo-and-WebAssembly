@@ -4,7 +4,7 @@ import (
 	"machine"
 	"time"
 
-	"github.com/PacktPublishing/Programming-Microcontrollers-and-WebAssembly-with-TinyGo/ch4/pump"
+	"github.com/PacktPublishing/Programming-Microcontrollers-and-WebAssembly-with-TinyGo/Chapter04/pump"
 )
 
 func main() {

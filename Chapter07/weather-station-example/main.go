@@ -4,7 +4,7 @@ import (
 	"machine"
 	"time"
 
-	weatherstation "github.com/PacktPublishing/Programming-Microcontrollers-and-WebAssembly-with-TinyGo/ch7/weather-station"
+	weatherstation "github.com/PacktPublishing/Programming-Microcontrollers-and-WebAssembly-with-TinyGo/Chapter07/weather-station"
 	"tinygo.org/x/drivers/bme280"
 	"tinygo.org/x/drivers/st7735"
 )

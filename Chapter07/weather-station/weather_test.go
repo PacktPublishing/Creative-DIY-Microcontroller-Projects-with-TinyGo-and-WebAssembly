@@ -3,7 +3,7 @@ package weatherstation_test
 import (
 	"testing"
 
-	weatherstation "github.com/PacktPublishing/Programming-Microcontrollers-and-WebAssembly-with-TinyGo/ch7/weather-station"
+	weatherstation "github.com/PacktPublishing/Programming-Microcontrollers-and-WebAssembly-with-TinyGo/Chapter07/weather-station"
 )
 
 func Test_Alert_NoAlerts(t *testing.T) {
