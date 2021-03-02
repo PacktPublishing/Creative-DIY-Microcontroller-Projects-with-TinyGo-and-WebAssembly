@@ -7,11 +7,11 @@ import (
 
 func main() {
 	outputConfig := machine.PinConfig{Mode: machine.PinOutput}
-	redLED := machine.D13
+	redLED := machine.D11
 	redLED.Configure(outputConfig)
 	yellowLED := machine.D12
 	yellowLED.Configure(outputConfig)
-	greenLED := machine.D11
+	greenLED := machine.D13
 	greenLED.Configure(outputConfig)
 	for {
 		redLED.High()

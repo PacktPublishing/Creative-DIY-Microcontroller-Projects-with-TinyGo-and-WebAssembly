@@ -14,18 +14,18 @@ func main() {
 
 	outputConfig := machine.PinConfig{Mode: machine.PinOutput}
 
-	greenLED := machine.D13
+	greenLED := machine.D11
 	greenLED.Configure(outputConfig)
 
 	yellowLED := machine.D12
 	yellowLED.Configure(outputConfig)
 
-	redLED := machine.D11
+	redLED := machine.D13
 	redLED.Configure(outputConfig)
 
-	pedestrianGreen := machine.D4
+	pedestrianGreen := machine.D5
 	pedestrianGreen.Configure(outputConfig)
-	pedestrianRed := machine.D5
+	pedestrianRed := machine.D4
 	pedestrianRed.Configure(outputConfig)
 
 	inputConfig := machine.PinConfig{Mode: machine.PinInput}
