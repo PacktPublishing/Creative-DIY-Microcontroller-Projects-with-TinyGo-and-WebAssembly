@@ -6,7 +6,7 @@ import (
 	"strings"
 )
 
-const dir = "Chapter07/html"
+const dir = "Chapter08/html"
 
 func main() {
 	fs := http.FileServer(http.Dir(dir))
