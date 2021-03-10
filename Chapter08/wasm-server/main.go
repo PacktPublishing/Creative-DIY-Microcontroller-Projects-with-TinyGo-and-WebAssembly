@@ -25,6 +25,13 @@ func main() {
 			resp.Header().Set("content-type", "image/jpeg")
 		}
 
+		requestURI := req.URL.RequestURI()
+		if strings.Contains(requestURI, "dashboard") ||
+			strings.Contains(requestURI, "login") {
+			http.Redirect(resp, req, "http://localhost:8080", http.StatusMovedPermanently)
+			return
+		}
+
 		fs.ServeHTTP(resp, req)
 	}))
 }

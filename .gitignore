@@ -27,3 +27,4 @@ vendor/
 .DS_Store
 .vscode/*
 *.orig
+temp

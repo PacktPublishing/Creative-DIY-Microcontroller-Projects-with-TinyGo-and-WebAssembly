@@ -73,7 +73,6 @@ light-control:
 	tinygo build -o Chapter08/html/wasm.wasm -target wasm -no-debug Chapter08/light-control/wasm.go
 	cp Chapter08/light-control/wasm_exec.js Chapter08/html/
 	cp Chapter08/light-control/wasm.js Chapter08/html/
-	cp Chapter08/light-control/dashboard.html Chapter08/html/
 	cp Chapter08/light-control/index.html Chapter08/html/
 	go run Chapter08/wasm-server/main.go
 
