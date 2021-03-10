@@ -1,7 +1,10 @@
 package dashboard
 
 import (
+	"syscall/js"
+
 	"github.com/Nerzal/tinydom"
+	"github.com/Nerzal/tinydom/elements/input"
 	"github.com/Nerzal/tinydom/elements/table"
 )
 
@@ -23,14 +26,39 @@ func (service *Service) RenderDashboard() {
 	h1 := doc.CreateElement("h1").SetInnerHTML("Dashboard")
 
 	tableElement := table.New().
-		SetHeader("Component", "Actions").
-		SetBody("component-control")
+		SetHeader("Component", "Actions")
 
-	tbody := tableElement.FindChildNode("tbody")
+	tbody := doc.CreateElement("tbody")
+
 	tr := doc.CreateElement("tr")
+	componentNameElement := doc.CreateElement("td").SetInnerHTML("Bedroom Lights")
+	componentControlElement := doc.CreateElement("td")
+
+	onButton := input.New(input.ButtonInput).
+		SetValue("On").
+		AddEventListener("click", js.FuncOf(bedroomOn))
+	offButton := input.New(input.ButtonInput).
+		SetValue("Off").
+		AddEventListener("click", js.FuncOf(bedroomOff))
+
+	componentControlElement.AppendChildren(onButton, offButton)
+
+	tr.AppendChildren(componentNameElement, componentControlElement)
 
 	tbody.AppendChildren(tr)
 
+	tableElement.SetBody(tbody)
+
 	div.AppendChildren(h1, tableElement.Element)
 	body.AppendChild(div)
+}
+
+func bedroomOn(this js.Value, args []js.Value) interface{} {
+	println("turning lights on")
+	return nil
+}
+
+func bedroomOff(this js.Value, args []js.Value) interface{} {
+	println("turning lights off")
+	return nil
 }
