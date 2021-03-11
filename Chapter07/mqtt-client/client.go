@@ -7,31 +7,27 @@ import (
 	"github.com/Nerzal/drivers/net/mqtt"
 )
 
-type Client interface {
-	ConnectBroker() error
-	PublishMessage(topic string, message []byte, qos uint8, retain bool) error
-}
-
-type client struct {
+type Client struct {
 	mqttBroker   string
 	mqttClientID string
-	mqttClient   mqtt.Client
+	MqttClient   mqtt.Client
 }
 
-func New(mqttBroker string) Client {
-	return &client{
-		mqttBroker: mqttBroker,
+func New(mqttBroker, clientID string) *Client {
+	return &Client{
+		mqttBroker:   mqttBroker,
+		mqttClientID: clientID,
 	}
 }
 
-func (client *client) ConnectBroker() error {
+func (client *Client) ConnectBroker() error {
 	opts := mqtt.NewClientOptions().
 		AddBroker(client.mqttBroker).
 		SetClientID(client.mqttClientID + randomString(4))
 
-	client.mqttClient = mqtt.NewClient(opts)
+	client.MqttClient = mqtt.NewClient(opts)
 
-	token := client.mqttClient.Connect()
+	token := client.MqttClient.Connect()
 	if token.Wait() && token.Error() != nil {
 		return token.Error()
 	}
@@ -39,8 +35,17 @@ func (client *client) ConnectBroker() error {
 	return nil
 }
 
-func (client *client) PublishMessage(topic string, message []byte, qos uint8, retain bool) error {
-	token := client.mqttClient.Publish(topic, qos, retain, message)
+func (client *Client) PublishMessage(topic string, message []byte, qos uint8, retain bool) error {
+	token := client.MqttClient.Publish(topic, qos, retain, message)
+	if token.WaitTimeout(time.Second) && token.Error() != nil {
+		return token.Error()
+	}
+
+	return nil
+}
+
+func (client *Client) Subscribe(topic string, qos byte, callback mqtt.MessageHandler) error {
+	token := client.MqttClient.Subscribe(topic, qos, callback)
 	if token.WaitTimeout(time.Second) && token.Error() != nil {
 		return token.Error()
 	}

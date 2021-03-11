@@ -51,7 +51,7 @@ func main() {
 
 	wifiClient.ConnectWifi()
 
-	mqttClient := mqttclient.New("tcp://192.168.2.102:1883")
+	mqttClient := mqttclient.New("tcp://192.168.2.102:1883", "weatherStation")
 	println("connecting to mqtt broker")
 	err = mqttClient.ConnectBroker()
 	if err != nil {
@@ -73,7 +73,7 @@ func main() {
 
 }
 
-func publishSensorData(mqttClient mqttclient.Client, wifiClient wifi.Client, weatherStation weatherstation.Service) {
+func publishSensorData(mqttClient *mqttclient.Client, wifiClient wifi.Client, weatherStation weatherstation.Service) {
 	for {
 		time.Sleep(time.Minute)
 		println("publishing sensor data")
@@ -95,7 +95,7 @@ func publishSensorData(mqttClient mqttclient.Client, wifiClient wifi.Client, wea
 	}
 }
 
-func publishAlert(mqttClient mqttclient.Client, wifiClient wifi.Client, weatherStation weatherstation.Service) {
+func publishAlert(mqttClient *mqttclient.Client, wifiClient wifi.Client, weatherStation weatherstation.Service) {
 	// pressure loss of more than 6 hPa / 3h -> possible storm incoming
 	// 							  2 hpa / 1h -> possible storm incoming
 	// source http://www.bohlken.net/airpressure2.htm
