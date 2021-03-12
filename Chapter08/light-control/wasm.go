@@ -45,6 +45,7 @@ func onLogin(channel chan (string)) {
 		loginState.loggedInAt = time.Now()
 
 		removeLoginComponent()
+		dashboardService.ConnectMQTT()
 		dashboardService.RenderDashboard()
 	}
 }

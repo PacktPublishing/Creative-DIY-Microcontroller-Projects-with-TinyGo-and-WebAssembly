@@ -41,7 +41,7 @@ func main() {
 	}
 	println("connected to mqtt broker")
 
-	mqttClient.Subscribe("lights", 1, HandleActionMessage)
+	mqttClient.Subscribe("home-control", 1, HandleActionMessage)
 
 	for {
 		time.Sleep(time.Minute)

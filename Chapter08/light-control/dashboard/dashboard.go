@@ -16,6 +16,11 @@ func New() Service {
 	return Service{}
 }
 
+func (service *Service) ConnectMQTT() {
+	println("connecting to mqtt")
+	js.Global().Get("MQTTconnect").Invoke()
+}
+
 func (service *Service) RenderDashboard() {
 	tinydom.GetWindow().PushState(nil, "dashboard", "/dashboard")
 
@@ -55,10 +60,14 @@ func (service *Service) RenderDashboard() {
 
 func bedroomOn(this js.Value, args []js.Value) interface{} {
 	println("turning lights on")
+
+	// room # module # action
+	js.Global().Get("publish").Invoke("home-control", "bedroom#lights#on")
 	return nil
 }
 
 func bedroomOff(this js.Value, args []js.Value) interface{} {
 	println("turning lights off")
+	js.Global().Get("publish").Invoke("home-control", "bedroom#lights#off")
 	return nil
 }
