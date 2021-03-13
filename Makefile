@@ -1,6 +1,27 @@
 hello-world-of-things: 
 	tinygo flash --target=arduino Chapter01/hello-world-of-things/main.go
 
+blink-sos: 
+	tinygo flash --target=arduino Chapter01/blink-sos/main.go
+
+blinky-external: 
+	tinygo flash --target=arduino Chapter02/blinky-external/main.go
+
+light-button: 
+	tinygo flash --target=arduino Chapter02/light-button/main.go
+
+light-button-floating: 
+	tinygo flash --target=arduino Chapter02/light-button-floating/main.go
+
+traffic-lights-blink: 
+	tinygo flash --target=arduino Chapter02/light-button-blink/main.go
+
+traffic-lights-pedestrian: 
+	tinygo flash --target=arduino Chapter02/light-button-pedestrian/main.go
+
+traffic-lights-simple: 
+	tinygo flash --target=arduino Chapter02/light-button-simple/main.go
+
 writing-to-serial: 
 	tinygo flash --target=arduino Chapter03/writing-to-serial/main.go
 
@@ -76,6 +97,9 @@ light-control:
 	cp Chapter08/light-control/mqtt.js Chapter08/html/
 	cp Chapter08/light-control/index.html Chapter08/html/
 	go run Chapter08/wasm-server/main.go
+
+light-control-client:
+	tinygo flash --target arduino-nano33 Chapter08/light-control-client/main.go
 
 test:
 	tinygo test --tags "arduino_nano33" Chapter05/ultrasonic-distance-sensor/driver_test.go

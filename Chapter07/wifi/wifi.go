@@ -39,13 +39,24 @@ func (client *client) Configure() error {
 		return err
 	}
 
-	client.wifi = &wifinina.Device{
-		SPI:   client.spi,
-		CS:    machine.NINA_CS,
-		ACK:   machine.NINA_ACK,
-		GPIO0: machine.NINA_GPIO0,
-		RESET: machine.NINA_RESETN,
-	}
+	// Using "old" wifinina driver use this
+	// client.wifi = &wifinina.Device{
+	// 	SPI:   client.spi,
+	// 	CS:    machine.NINA_CS,
+	// 	ACK:   machine.NINA_ACK,
+	// 	GPIO0: machine.NINA_GPIO0,
+	// 	RESET: machine.NINA_RESETN,
+	// }
+
+	wifiDevice := wifinina.NewSPI(
+		client.spi,
+		machine.NINA_CS,
+		machine.NINA_ACK,
+		machine.NINA_GPIO0,
+		machine.NINA_RESETN,
+	)
+
+	client.wifi = wifiDevice
 
 	client.wifi.Configure()
 

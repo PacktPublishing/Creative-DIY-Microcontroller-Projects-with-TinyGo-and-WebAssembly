@@ -4,15 +4,18 @@
 var mqtt;
 const host = "127.0.0.1";
 const port = 9001
+const cname = "home-automation-dashboard"
 
 function onConnect() {
     console.log("Successfully connected to mqtt broker");
 }
 
-function onConnectionLost(responseObject) {
-    if (responseObject.errorCode !== 0) {
-        console.log("onConnectionLost:" + responseObject.errorMessage);
+function onConnectionLost(err) {
+    if (err.errorCode !== 0) {
+        console.log("onConnectionLost:" + err.errorMessage);
     }
+
+    MQTTconnect()
 }
 
 function onMessageArrived(message) {
@@ -27,7 +30,6 @@ function publish(topic, message) {
 function MQTTconnect() {
     console.log("mqtt client: connecting to " + host + ":" + port);
 
-    var cname = "weather-consumer"
     mqtt = new Paho.MQTT.Client(host, port, cname);
     var options = {
         timeout: 3,

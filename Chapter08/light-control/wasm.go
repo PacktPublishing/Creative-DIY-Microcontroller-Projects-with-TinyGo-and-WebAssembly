@@ -12,41 +12,38 @@ var window = tinydom.GetWindow()
 var loginService *login.Service
 var dashboardService dashboard.Service
 
-type userInfo struct {
-	loggedIn   bool
-	userName   string
-	loggedInAt time.Time
-}
-
-var loginState userInfo
+var loginState login.UserInfo
 
 func main() {
-	loginState = userInfo{}
+	loginState = login.UserInfo{}
 
-	loginChannel := make(chan (string), 1)
+	loginChannel := make(chan string, 1)
 
 	loginService = login.NewService(loginChannel)
 	loginService.RenderLogin()
 	go onLogin(loginChannel)
 
-	dashboardService = dashboard.New()
+	logoutChannel := make(chan bool, 1)
+	go onLogout(logoutChannel)
+
+	dashboardService = dashboard.New(logoutChannel)
 
 	wait := make(chan struct{}, 0)
 	<-wait
 }
 
-func onLogin(channel chan (string)) {
+func onLogin(channel chan string) {
 	for {
 		userName := <-channel
 		println(userName, "logged in!")
 
-		loginState.userName = userName
-		loginState.loggedIn = true
-		loginState.loggedInAt = time.Now()
+		loginState.UserName = userName
+		loginState.LoggedIn = true
+		loginState.LoggedInAt = time.Now()
 
 		removeLoginComponent()
 		dashboardService.ConnectMQTT()
-		dashboardService.RenderDashboard()
+		dashboardService.RenderDashboard(loginState)
 	}
 }
 
@@ -55,9 +52,20 @@ func removeLoginComponent() {
 	doc.GetElementById("body-component").
 		RemoveChild(doc.GetElementById("login-component"))
 }
+func removeDashboardComponent() {
+	doc := tinydom.GetDocument()
+	doc.GetElementById("body-component").
+		RemoveChild(doc.GetElementById("dashboard-component"))
+}
 
-func logout() {
-	loginState = userInfo{}
-	window.PushState(nil, "login", "")
+func onLogout(channel chan bool) {
+	for {
+		<-channel
+		println("handling logout event")
+		removeDashboardComponent()
+		loginState = login.UserInfo{}
 
+		window.PushState(nil, "login", "")
+		loginService.RenderLogin()
+	}
 }

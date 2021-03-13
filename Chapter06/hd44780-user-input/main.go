@@ -3,7 +3,7 @@ package main
 import (
 	"machine"
 
-	"github.com/Nerzal/drivers/hd44780i2c"
+	"tinygo.org/x/drivers/hd44780i2c"
 )
 
 const carriageReturn = 0x0D

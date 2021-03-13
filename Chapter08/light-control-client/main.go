@@ -10,10 +10,10 @@ import (
 	"github.com/PacktPublishing/Programming-Microcontrollers-and-WebAssembly-with-TinyGo/Chapter07/wifi"
 )
 
-const ssid = ""
-const password = ""
+const ssid = "NoobyGames"
+const password = "IchHasseLangeWlanZugangsDaten1312!"
 
-const bedroomLight = machine.D10
+const bedroomLight = machine.D4
 
 func main() {
 	time.Sleep(5 * time.Second)
@@ -41,16 +41,28 @@ func main() {
 	}
 	println("connected to mqtt broker")
 
-	mqttClient.Subscribe("home-control", 1, HandleActionMessage)
-
-	for {
-		time.Sleep(time.Minute)
+	err = mqttClient.Subscribe("home-control", 0, HandleActionMessage)
+	if err != nil {
+		printError("could not configure mqtt", err)
 	}
 
+	// use for test purposes
+	// go func() {
+	// 	for {
+	// 		mqttClient.PublishMessage("home-control", []byte("bedroom#lights#on"), 0, false)
+	// 		time.Sleep(500 * time.Millisecond)
+	// 		println("published message")
+	// 	}
+	// }()
+
+	println("subscribed to topic, waiting for messages")
+
+	select {}
 }
 
 // room # module # action
 func HandleActionMessage(client mqtt.Client, message mqtt.Message) {
+	println("handling incoming message")
 	payload := string(message.Payload())
 	splittedString := strings.Split(payload, "#")
 
@@ -62,7 +74,7 @@ func HandleActionMessage(client mqtt.Client, message mqtt.Message) {
 
 	println("room:", splittedString[0], "module:", splittedString[1], "action:", splittedString[2])
 
-	switch splittedString[1] {
+	switch splittedString[0] {
 	case "bedroom":
 		controlBedroom(splittedString[1], splittedString[2])
 	default:
