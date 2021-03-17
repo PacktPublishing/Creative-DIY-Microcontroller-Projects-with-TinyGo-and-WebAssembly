@@ -15,19 +15,19 @@ const password = "secure1234"
 var doc = tinydom.GetDocument()
 
 type Service struct {
-	channel chan (string)
+	channel chan string
 }
 
-func NewService(channel chan (string)) *Service {
+func NewService(channel chan string) *Service {
 	return &Service{channel: channel}
 }
 
 func (service *Service) RenderLogin() {
 	tinydom.GetWindow().PushState(nil, "login", "/login")
 
-	body := doc.GetElementById("body-component")
 	div := doc.CreateElement("div").
 		SetId("login-component")
+		
 	h1 := doc.CreateElement("h1").
 		SetInnerHTML("Login")
 
@@ -65,7 +65,8 @@ func (service *Service) RenderLogin() {
 	)
 
 	div.AppendChildren(h1, loginForm.Element)
-
+	
+	body := doc.GetElementById("body-component")
 	body.AppendChildren(div)
 }
 

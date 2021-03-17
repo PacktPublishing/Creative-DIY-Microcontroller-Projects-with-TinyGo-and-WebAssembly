@@ -1,6 +1,7 @@
 package main
 
 import (
+	"fmt"
 	"machine"
 	"strings"
 	"time"
@@ -10,10 +11,12 @@ import (
 	"github.com/PacktPublishing/Programming-Microcontrollers-and-WebAssembly-with-TinyGo/Chapter07/wifi"
 )
 
-const ssid = "NoobyGames"
-const password = "IchHasseLangeWlanZugangsDaten1312!"
+const ssid = ""
+const password = ""
 
 const bedroomLight = machine.D4
+
+var bedroomLightStatus = false
 
 func main() {
 	time.Sleep(5 * time.Second)
@@ -30,7 +33,6 @@ func main() {
 
 	println("checking firmware")
 	wifiClient.CheckHardware()
-
 	wifiClient.ConnectWifi()
 
 	mqttClient := mqttclient.New("tcp://192.168.2.102:1883", "lightControl")
@@ -41,15 +43,20 @@ func main() {
 	}
 	println("connected to mqtt broker")
 
-	err = mqttClient.Subscribe("home-control", 0, HandleActionMessage)
+	err = mqttClient.Subscribe("home/control", 0, HandleActionMessage)
 	if err != nil {
-		printError("could not configure mqtt", err)
+		printError("could not subsribe to topic", err)
+	}
+
+	err = mqttClient.Subscribe("home/status-request", 0, HandleStatusRequestMessage)
+	if err != nil {
+		printError("could not subsribe to topic", err)
 	}
 
 	// use for test purposes
 	// go func() {
 	// 	for {
-	// 		mqttClient.PublishMessage("home-control", []byte("bedroom#lights#on"), 0, false)
+	// 		mqttClient.PublishMessage("home/control", []byte("bedroom#lights#on"), 0, false)
 	// 		time.Sleep(500 * time.Millisecond)
 	// 		println("published message")
 	// 	}
@@ -58,6 +65,23 @@ func main() {
 	println("subscribed to topic, waiting for messages")
 
 	select {}
+}
+
+func HandleStatusRequestMessage(client mqtt.Client, message mqtt.Message) {
+	reportStatus(client)
+	message.Ack()
+}
+
+func reportStatus(client mqtt.Client) {
+	status := "off"
+	if bedroomLightStatus {
+		status = "on"
+	}
+
+	token := client.Publish("home/status", 0, false, fmt.Sprintf("bedroom#lights#%s", status))
+	if token.Wait() && token.Error() != nil {
+		println(token.Error())
+	}
 }
 
 // room # module # action
@@ -72,11 +96,22 @@ func HandleActionMessage(client mqtt.Client, message mqtt.Message) {
 		return
 	}
 
-	println("room:", splittedString[0], "module:", splittedString[1], "action:", splittedString[2])
+	println(
+		"room:",
+		splittedString[0],
+		"module:",
+		splittedString[1],
+		"action:",
+		splittedString[2],
+	)
 
 	switch splittedString[0] {
 	case "bedroom":
-		controlBedroom(splittedString[1], splittedString[2])
+		controlBedroom(
+			client,
+			splittedString[1],
+			splittedString[2],
+		)
 	default:
 		println("invalid room:", payload)
 	}
@@ -84,14 +119,14 @@ func HandleActionMessage(client mqtt.Client, message mqtt.Message) {
 	message.Ack()
 }
 
-func controlBedroom(module, action string) {
+func controlBedroom(client mqtt.Client, module, action string) {
 	switch module {
 	case "lights":
 		switch action {
 		case "on":
-			controlBedroomlights(true)
+			controlBedroomlights(client, true)
 		case "off":
-			controlBedroomlights(false)
+			controlBedroomlights(client, false)
 		default:
 			println("unknown action:", action)
 
@@ -101,12 +136,16 @@ func controlBedroom(module, action string) {
 	}
 }
 
-func controlBedroomlights(action bool) {
+func controlBedroomlights(client mqtt.Client, action bool) {
 	if action {
 		bedroomLight.High()
+		bedroomLightStatus = true
 	} else {
 		bedroomLight.Low()
+		bedroomLightStatus = false
 	}
+
+	reportStatus(client)
 }
 
 func printError(message string, err error) {

@@ -17,14 +17,6 @@ func main() {
 			resp.Header().Set("content-type", "application/wasm")
 		}
 
-		if strings.HasSuffix(req.URL.Path, ".css") {
-			resp.Header().Set("content-type", "text/css")
-		}
-
-		if strings.HasSuffix(req.URL.Path, ".jpg") {
-			resp.Header().Set("content-type", "image/jpeg")
-		}
-
 		requestURI := req.URL.RequestURI()
 		if strings.Contains(requestURI, "dashboard") ||
 			strings.Contains(requestURI, "login") {

@@ -10,9 +10,8 @@ import (
 
 var window = tinydom.GetWindow()
 var loginService *login.Service
-var dashboardService dashboard.Service
-
 var loginState login.UserInfo
+var dashboardService dashboard.Service
 
 func main() {
 	loginState = login.UserInfo{}
@@ -52,6 +51,7 @@ func removeLoginComponent() {
 	doc.GetElementById("body-component").
 		RemoveChild(doc.GetElementById("login-component"))
 }
+
 func removeDashboardComponent() {
 	doc := tinydom.GetDocument()
 	doc.GetElementById("body-component").
@@ -65,7 +65,6 @@ func onLogout(channel chan bool) {
 		removeDashboardComponent()
 		loginState = login.UserInfo{}
 
-		window.PushState(nil, "login", "")
 		loginService.RenderLogin()
 	}
 }
