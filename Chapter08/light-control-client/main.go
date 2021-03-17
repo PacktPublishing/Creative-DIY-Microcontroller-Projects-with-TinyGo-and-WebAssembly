@@ -68,6 +68,7 @@ func main() {
 }
 
 func HandleStatusRequestMessage(client mqtt.Client, message mqtt.Message) {
+	println("handling status request")
 	reportStatus(client)
 	message.Ack()
 }

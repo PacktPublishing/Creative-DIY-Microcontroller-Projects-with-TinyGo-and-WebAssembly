@@ -22,6 +22,7 @@ type Service struct {
 
 func New(logout chan bool) Service {
 	js.Global().Set("handleMessage", js.FuncOf(handleMessage))
+	js.Global().Set("handleOnConnect", js.FuncOf(handleOnConnect))
 
 	return Service{
 		logoutChannel: logout,
@@ -33,8 +34,11 @@ func (service *Service) ConnectMQTT() {
 	js.Global().
 		Get("MQTTconnect").
 		Invoke()
+}
 
-	service.requestStatus()
+func handleOnConnect(this js.Value, args []js.Value) interface{} {
+	requestStatus()
+	return nil
 }
 
 func handleMessage(this js.Value, args []js.Value) interface{} {
@@ -132,7 +136,8 @@ func (service *Service) logout(this js.Value, args []js.Value) interface{} {
 	return nil
 }
 
-func (service *Service) requestStatus() {
+func requestStatus() {
+	println("requesting status")
 	js.Global().Get("publish").Invoke("home/status-request", "")
 }
 
@@ -149,6 +154,7 @@ func (service *Service) bedroomOn(this js.Value, args []js.Value) interface{} {
 	js.Global().Get("publish").Invoke("home/control", "bedroom#lights#on")
 
 	service.user.LoggedInAt = time.Now()
+
 	return nil
 }
 
@@ -163,5 +169,6 @@ func (service *Service) bedroomOff(this js.Value, args []js.Value) interface{} {
 	js.Global().Get("publish").Invoke("home/control", "bedroom#lights#off")
 
 	service.user.LoggedInAt = time.Now()
+
 	return nil
 }

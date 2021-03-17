@@ -10,6 +10,7 @@ function onConnect() {
     console.log("Successfully connected to mqtt broker");
 
     mqtt.subscribe("home/status")
+    handleOnConnect()
 }
 
 function onConnectionLost(err) {
