@@ -23,9 +23,9 @@ func main() {
 	redLED := machine.D13
 	redLED.Configure(outputConfig)
 
-	pedestrianGreen := machine.D5
+	pedestrianGreen := machine.D4
 	pedestrianGreen.Configure(outputConfig)
-	pedestrianRed := machine.D4
+	pedestrianRed := machine.D5
 	pedestrianRed.Configure(outputConfig)
 
 	inputConfig := machine.PinConfig{Mode: machine.PinInput}

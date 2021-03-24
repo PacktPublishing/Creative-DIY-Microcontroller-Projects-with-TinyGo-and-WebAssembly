@@ -39,9 +39,7 @@ func main() {
 		soilSensor.On()
 		time.Sleep(100 * time.Millisecond)
 		switch soilSensor.Get() {
-		case soil.CompletelyDry:
-			fallthrough
-		case soil.VeryDry:
+		case soil.CompletelyDry, soil.VeryDry:
 			soilSensor.Off()
 			pump.Pump(350*time.Millisecond, 3)
 		default:

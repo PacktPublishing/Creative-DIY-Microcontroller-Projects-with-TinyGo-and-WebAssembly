@@ -13,9 +13,9 @@ type SoilSensor interface {
 }
 
 type soilSensor struct {
-	waterThreshold         float32
-	completelyDryThreshold float32
-	category               float32
+	waterThreshold         int16
+	completelyDryThreshold int16
+	category               int16
 	pin                    machine.Pin
 	adc                    machine.ADC
 	voltage                machine.Pin
@@ -32,7 +32,7 @@ const (
 	Water         MoistureLevel = iota
 )
 
-func NewSoilSensor(waterThreshold, dryThreshold float32, dataPin, voltagePin machine.Pin) SoilSensor {
+func NewSoilSensor(waterThreshold, dryThreshold int16, dataPin, voltagePin machine.Pin) SoilSensor {
 	category := (dryThreshold - waterThreshold) / 6
 	return &soilSensor{
 		waterThreshold:         waterThreshold,
@@ -44,7 +44,7 @@ func NewSoilSensor(waterThreshold, dryThreshold float32, dataPin, voltagePin mac
 }
 
 func (sensor *soilSensor) Get() MoistureLevel {
-	value := float32(sensor.adc.Get())
+	value := sensor.adc.Get()
 
 	switch {
 	case value >= sensor.completelyDryThreshold:

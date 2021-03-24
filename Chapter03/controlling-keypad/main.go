@@ -8,7 +8,7 @@ import (
 
 func main() {
 	keypadDevice := keypad.Driver{}
-	keypadDevice.Configure(machine.D2, machine.D3, machine.D4, machine.D5, machine.D6, machine.D7, machine.D8, machine.D9)
+	keypadDevice.Configure(machine.D3, machine.D4, machine.D5, machine.D6, machine.D7, machine.D8, machine.D9, machine.D10)
 
 	for {
 		key := keypadDevice.GetKey()

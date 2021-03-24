@@ -1,11 +1,15 @@
 package main
 
 import (
+	"fmt"
 	"image/color"
 	"machine"
 	"time"
 
 	"tinygo.org/x/drivers/st7735"
+	"tinygo.org/x/tinydraw"
+	"tinygo.org/x/tinyfont"
+	"tinygo.org/x/tinyfont/freemono"
 )
 
 var (
@@ -37,26 +41,26 @@ func main() {
 	display.FillRectangle(width/2, height/2, width/2, height/2, blue)
 
 	time.Sleep(3 * time.Second)
-	// display.FillScreen(black)
+	display.FillScreen(black)
 
-	// i := 0
-	// for {
-	// 	display.FillScreen(black)
+	i := 0
+	for {
+		display.FillScreen(black)
 
-	// 	tinydraw.FilledRectangle(&display, 0, 0, 128, 32, white)
+		tinydraw.FilledRectangle(&display, 0, 0, 128, 32, white)
 
-	// 	tinyfont.WriteLineRotated(&display, &freemono.Bold9pt7b, 110, 145, "TinyDraw", red, tinyfont.ROTATION_180)
+		tinyfont.WriteLineRotated(&display, &freemono.Bold9pt7b, 110, 145, "TinyDraw", red, tinyfont.ROTATION_180)
 
-	// 	tinydraw.FilledCircle(&display, 64, 96, 32, green)
-	// 	tinydraw.FilledCircle(&display, 64, 96, 24, blue)
-	// 	tinydraw.FilledCircle(&display, 64, 96, 16, red)
+		tinydraw.FilledCircle(&display, 64, 96, 32, green)
+		tinydraw.FilledCircle(&display, 64, 96, 24, blue)
+		tinydraw.FilledCircle(&display, 64, 96, 16, red)
 
-	// 	tinyfont.WriteLineRotated(&display, &freemono.Bold9pt7b, 110, 40, "TinyFont", green, tinyfont.ROTATION_180)
+		tinyfont.WriteLineRotated(&display, &freemono.Bold9pt7b, 110, 40, "TinyFont", green, tinyfont.ROTATION_180)
 
-	// 	counterText := fmt.Sprintf("Count: %v", i)
-	// 	tinyfont.WriteLineRotated(&display, &freemono.Bold9pt7b, 123, 2, counterText, black, tinyfont.ROTATION_180)
+		counterText := fmt.Sprintf("Count: %v", i)
+		tinyfont.WriteLineRotated(&display, &freemono.Bold9pt7b, 123, 2, counterText, black, tinyfont.ROTATION_180)
 
-	// 	time.Sleep(2 * time.Second)
-	// 	i++
-	// }
+		time.Sleep(2 * time.Second)
+		i++
+	}
 }
