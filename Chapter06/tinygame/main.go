@@ -28,8 +28,12 @@ var (
 )
 
 func main() {
-	var buttonPin = machine.D9
+	buttonPin := machine.D9
 	buttonPin.Configure(machine.PinConfig{Mode: machine.PinInput})
+
+	buttonPowerPin := machine.D10
+	buttonPowerPin.Configure(machine.PinConfig{Mode: machine.PinOutput})
+	buttonPin.High()
 
 	updateHighscore(0)
 
@@ -70,7 +74,7 @@ func updateHighscore(score int) {
 
 	highscore = score
 
-	println(fmt.Sprintf("  TinyInvader  HighScore: %d", highscore))
+	println(fmt.Sprintf("  TinyInvader  Highscore: %d", highscore))
 }
 
 func updateGame(display st7735.Device) {
@@ -96,7 +100,7 @@ func updateGame(display st7735.Device) {
 		if shotFired {
 			bulletPosY = updateBullet(display, bulletPosY)
 
-			if bulletPosY > 160 {
+			if bulletPosY > height {
 				shotFired = false
 				canFire = true
 				bulletPosY = 0

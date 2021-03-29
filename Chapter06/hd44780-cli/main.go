@@ -91,7 +91,7 @@ func main() {
 
 		if data == carriageReturn {
 			lcd.Print([]byte("\n"))
-			uart.Write([]byte("\n"))
+			uart.Write([]byte("\r\n"))
 			continue
 		}
 

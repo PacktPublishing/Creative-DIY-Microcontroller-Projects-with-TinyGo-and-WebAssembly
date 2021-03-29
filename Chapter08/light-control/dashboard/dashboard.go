@@ -17,14 +17,14 @@ var doc = tinydom.GetDocument()
 type Service struct {
 	user          login.UserInfo
 	bedroomLights bool
-	logoutChannel chan bool
+	logoutChannel chan struct{}
 }
 
-func New(logout chan bool) Service {
+func New(logout chan struct{}) *Service {
 	js.Global().Set("handleMessage", js.FuncOf(handleMessage))
 	js.Global().Set("handleOnConnect", js.FuncOf(handleOnConnect))
 
-	return Service{
+	return &Service{
 		logoutChannel: logout,
 	}
 }
@@ -132,7 +132,7 @@ func (service *Service) RenderDashboard(user login.UserInfo) {
 }
 
 func (service *Service) logout(this js.Value, args []js.Value) interface{} {
-	service.logoutChannel <- true
+	service.logoutChannel <- struct{}{}
 	return nil
 }
 

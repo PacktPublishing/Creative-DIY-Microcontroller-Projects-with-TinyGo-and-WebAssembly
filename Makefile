@@ -47,13 +47,16 @@ soil-moisture-sensor-thresholds:
 	tinygo flash --target=arduino Chapter04/soil-moisture-sensor-thresholds/main.go
 
 ultrasonic-distance-sensor-example:
-	tinygo flash --target=arduino-nano33 Chapter05/ultrasonic-distance-sensor-example/main.go && putty
+	tinygo flash --target=arduino-nano33 Chapter05/ultrasonic-distance-sensor-example/main.go
 
 hs42561k-example:
 	tinygo flash --target=arduino-nano33 Chapter05/hs42561k-example/main.go
 
 hs42561k-spi-example:
 	tinygo flash --target=arduino-nano33 Chapter05/hs42561k-spi-example/main.go
+
+touchless-handwash-timer:
+	tinygo flash --target=arduino-nano33 Chapter05/touchless-handwash-timer/main.go
 
 hd44780-text-display:
 	tinygo flash --target=arduino-nano33 Chapter06/hd44780-text-display/main.go

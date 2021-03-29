@@ -11,7 +11,7 @@ import (
 var window = tinydom.GetWindow()
 var loginService *login.Service
 var loginState login.UserInfo
-var dashboardService dashboard.Service
+var dashboardService *dashboard.Service
 
 func main() {
 	loginState = login.UserInfo{}
@@ -22,7 +22,7 @@ func main() {
 	loginService.RenderLogin()
 	go onLogin(loginChannel)
 
-	logoutChannel := make(chan bool, 1)
+	logoutChannel := make(chan struct{}, 1)
 	go onLogout(logoutChannel)
 
 	dashboardService = dashboard.New(logoutChannel)
@@ -58,7 +58,7 @@ func removeDashboardComponent() {
 		RemoveChild(doc.GetElementById("dashboard-component"))
 }
 
-func onLogout(channel chan bool) {
+func onLogout(channel chan struct{}) {
 	for {
 		<-channel
 		println("handling logout event")

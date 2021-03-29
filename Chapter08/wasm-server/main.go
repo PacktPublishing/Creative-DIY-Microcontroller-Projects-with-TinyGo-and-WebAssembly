@@ -11,10 +11,8 @@ const dir = "Chapter08/html"
 var fs = http.FileServer(http.Dir(dir))
 
 func main() {
-
 	log.Print("Serving " + dir + " on http://localhost:8080")
 	http.ListenAndServe(":8080", http.HandlerFunc(handleRequest))
-
 }
 
 func handleRequest(resp http.ResponseWriter, req *http.Request) {

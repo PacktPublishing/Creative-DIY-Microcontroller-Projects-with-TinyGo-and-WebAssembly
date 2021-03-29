@@ -29,7 +29,7 @@ func main() {
 	display := hs42561k.NewDevice(displayDriver, 4)
 	display.Configure()
 
-	distanceSensor := hcsr04.NewHCSR04(machine.D2, machine.D3, 60)
+	distanceSensor := hcsr04.NewDevice(machine.D2, machine.D3, 60)
 	distanceSensor.Configure()
 
 	buzzer := buzzer.NewBuzzer(machine.D5)

@@ -8,7 +8,7 @@ import (
 )
 
 func TestGetDistanceFromPulseLength_30cm(t *testing.T) {
-	sensor := hcsr04.NewHCSR04(machine.D2, machine.D3, 100)
+	sensor := hcsr04.NewDevice(machine.D2, machine.D3, 100)
 
 	distance := sensor.GetDistanceFromPulseLength(1749.27113703)
 
@@ -46,7 +46,7 @@ func TestGetDistanceFromPulseLength_TableDriven(t *testing.T) {
 		},
 	}
 
-	sensor := hcsr04.NewHCSR04(machine.D2, machine.D3, 100)
+	sensor := hcsr04.NewDevice(machine.D2, machine.D3, 100)
 
 	for _, testCase := range testCases {
 		t.Run(testCase.Name, func(t *testing.T) {

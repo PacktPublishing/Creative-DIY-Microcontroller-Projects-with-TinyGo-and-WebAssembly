@@ -27,7 +27,7 @@ func (service *Service) RenderLogin() {
 
 	div := doc.CreateElement("div").
 		SetId("login-component")
-		
+
 	h1 := doc.CreateElement("h1").
 		SetInnerHTML("Login")
 
@@ -65,9 +65,9 @@ func (service *Service) RenderLogin() {
 	)
 
 	div.AppendChildren(h1, loginForm.Element)
-	
+
 	body := doc.GetElementById("body-component")
-	body.AppendChildren(div)
+	body.AppendChild(div)
 }
 
 func (service *Service) onClick(this js.Value, args []js.Value) interface{} {

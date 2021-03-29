@@ -3,14 +3,14 @@
 // Documentation at https://www.eclipse.org/paho/files/jsdoc/Paho.MQTT.Client.html
 var mqtt;
 const host = "127.0.0.1";
-const port = 9001
-const cname = "home-automation-dashboard"
+const port = 9001;
+const cname = "home-automation-dashboard";
 
 function onConnect() {
     console.log("Successfully connected to mqtt broker");
 
-    mqtt.subscribe("home/status")
-    handleOnConnect()
+    mqtt.subscribe("home/status");
+    handleOnConnect();
 }
 
 function onConnectionLost(err) {
@@ -18,16 +18,16 @@ function onConnectionLost(err) {
         console.log("onConnectionLost:" + err.errorMessage);
     }
 
-    MQTTconnect()
+    MQTTconnect();
 }
 
 function onMessageArrived(message) {
     console.log("onMessageArrived:" + message.payloadString);
-    handleMessage(message.payloadString)
+    handleMessage(message.payloadString);
 }
 
 function publish(topic, message) {
-    mqtt.send(topic, message, 1, false)
+    mqtt.send(topic, message, 1, false);
 }
 
 function MQTTconnect() {
