@@ -9,7 +9,7 @@ import (
 
 type Client interface {
 	Configure() error
-	CheckHardware()
+	CheckHardware() error
 	ConnectWifi()
 }
 
@@ -66,23 +66,25 @@ func (client *client) Configure() error {
 	return nil
 }
 
-func (client *client) CheckHardware() {
+func (client *client) CheckHardware() error {
 	firmwareVersion, err := client.wifi.GetFwVersion()
 	if err != nil {
-		println("could not get firmware version:", err.Error())
+		return err
 	}
 
 	println("firmware version: ", firmwareVersion)
 
 	result, err := client.wifi.ScanNetworks()
 	if err != nil {
-		println("could not scan networks:", err.Error())
+		return err
 	}
 
 	for i := 0; i < int(result); i++ {
 		ssid := client.wifi.GetNetworkSSID(i)
 		println("ssid: ", ssid, "id:", i)
 	}
+
+	return nil
 }
 
 func (client *client) ConnectWifi() {
@@ -95,10 +97,10 @@ func (client *client) ConnectWifi() {
 
 		status, err := client.wifi.GetConnectionStatus()
 		if err != nil {
-			println("error: " + err.Error())
+			println("error:", err.Error())
 		}
 
-		println("status: " + status.String())
+		println("status:", status.String())
 
 		if status == wifinina.StatusConnected {
 			break
@@ -117,16 +119,11 @@ func (client *client) ConnectWifi() {
 	println("connected to wifi. got ip:", ip.String())
 }
 
-func (client *client) connect() {
-	var err error
-
+func (client *client) connect() error {
 	if client.password == "" {
-		err = client.wifi.SetNetwork(client.ssid)
-	} else {
-		err = client.wifi.SetPassphrase(client.ssid, client.password)
+		err := client.wifi.SetNetwork(client.ssid)
+		return err
 	}
 
-	if err != nil {
-		println("could not set credentials:", err.Error())
-	}
+	return client.wifi.SetPassphrase(client.ssid, client.password)
 }

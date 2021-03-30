@@ -12,13 +12,13 @@ import (
 	"tinygo.org/x/drivers/bme280"
 )
 
-const ssid = "NoobyGames"
-const password = "IchHasseLangeWlanZugangsDaten1312!"
+const ssid = ""
+const password = ""
 
 var (
-	temperature float64
-	pressure    float64
-	humidity    float64
+	temperature int32
+	pressure    int32
+	humidity    int32
 )
 
 func printError(message string, err error) {
@@ -47,7 +47,10 @@ func main() {
 	}
 
 	println("checking firmware")
-	wifiClient.CheckHardware()
+	err = wifiClient.CheckHardware()
+	if err != nil {
+		printError("could not check hardware", err)
+	}
 
 	wifiClient.ConnectWifi()
 
@@ -79,17 +82,15 @@ func publishSensorData(mqttClient *mqttclient.Client, wifiClient wifi.Client, we
 		println("publishing sensor data")
 
 		tempString, pressString, humidityString := weatherStation.GetFormattedReadings(temperature, pressure, humidity)
-		message := []byte(fmt.Sprintf("%s#%s#%s#%s", "sensor readings", tempString, pressString, humidityString))
+		message := []byte(fmt.Sprintf("sensor readings#%s#%s#%s", tempString, pressString, humidityString))
 
 		err := mqttClient.PublishMessage("weather/data", message, 0, true)
 		if err != nil {
+			println(err.Error())
 			switch err.(type) {
 			case wifinina.Error:
-				println(err.Error())
 				wifiClient.ConnectWifi()
 				mqttClient.ConnectBroker()
-			default:
-				println(err.Error())
 			}
 		}
 	}
@@ -102,7 +103,7 @@ func publishAlert(mqttClient *mqttclient.Client, wifiClient wifi.Client, weather
 	for {
 		time.Sleep(time.Hour)
 
-		weatherStation.SavePressureReading(pressure)
+		weatherStation.SavePressureReading(float64(pressure / 100000))
 
 		alert, diff := weatherStation.CheckAlert(2, 1)
 		if alert {
