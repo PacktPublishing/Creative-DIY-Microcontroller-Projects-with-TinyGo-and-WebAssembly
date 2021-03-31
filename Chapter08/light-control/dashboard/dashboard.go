@@ -149,9 +149,7 @@ func (service *Service) bedroomOn(this js.Value, args []js.Value) interface{} {
 	}
 
 	println("turning lights on")
-
-	// room # module # action
-	js.Global().Get("publish").Invoke("home/control", "bedroom#lights#on")
+	js.Global().Get("publish").Invoke("home/bedroom/lights", "on")
 
 	service.user.LoggedInAt = time.Now()
 
@@ -166,7 +164,7 @@ func (service *Service) bedroomOff(this js.Value, args []js.Value) interface{} {
 	}
 
 	println("turning lights off")
-	js.Global().Get("publish").Invoke("home/control", "bedroom#lights#off")
+	js.Global().Get("publish").Invoke("home/bedroom/lights", "off")
 
 	service.user.LoggedInAt = time.Now()
 

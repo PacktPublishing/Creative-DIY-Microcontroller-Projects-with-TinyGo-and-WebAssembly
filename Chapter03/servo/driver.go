@@ -23,8 +23,6 @@ type Driver struct {
 }
 
 func (servo *Driver) Configure(pin machine.Pin) {
-	machine.InitPWM()
-
 	servoPin := machine.PWM{Pin: pin}
 	servoPin.Configure()
 

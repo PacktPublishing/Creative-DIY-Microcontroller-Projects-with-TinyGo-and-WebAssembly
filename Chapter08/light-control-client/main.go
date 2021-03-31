@@ -3,7 +3,6 @@ package main
 import (
 	"fmt"
 	"machine"
-	"strings"
 	"time"
 
 	"github.com/Nerzal/drivers/net/mqtt"
@@ -89,51 +88,21 @@ func reportStatus(client mqtt.Client) {
 func HandleActionMessage(client mqtt.Client, message mqtt.Message) {
 	println("handling incoming message")
 	payload := string(message.Payload())
-	splittedString := strings.Split(payload, "#")
 
-	if len(splittedString) != 3 {
-		println("invalid message:", payload)
-		message.Ack()
-		return
-	}
-
-	println(
-		"room:",
-		splittedString[0],
-		"module:",
-		splittedString[1],
-		"action:",
-		splittedString[2],
-	)
-
-	switch splittedString[0] {
-	case "bedroom":
-		controlBedroom(
-			client,
-			splittedString[1],
-			splittedString[2],
-		)
-	default:
-		println("invalid room:", payload)
-	}
+	controlBedroom(client, payload)
 
 	message.Ack()
 }
 
-func controlBedroom(client mqtt.Client, module, action string) {
-	switch module {
-	case "lights":
-		switch action {
-		case "on":
-			controlBedroomlights(client, true)
-		case "off":
-			controlBedroomlights(client, false)
-		default:
-			println("unknown action:", action)
-
-		}
+func controlBedroom(client mqtt.Client, action string) {
+	switch action {
+	case "on":
+		controlBedroomlights(client, true)
+	case "off":
+		controlBedroomlights(client, false)
 	default:
-		println("invalid module:", module)
+		println("unknown action:", action)
+
 	}
 }
 
