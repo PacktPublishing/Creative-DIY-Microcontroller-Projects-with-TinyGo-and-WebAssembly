@@ -14,13 +14,13 @@ light-button-floating:
 	tinygo flash --target=arduino Chapter02/light-button-floating/main.go
 
 traffic-lights-blink: 
-	tinygo flash --target=arduino Chapter02/light-button-blink/main.go
+	tinygo flash --target=arduino --scheduler=tasks Chapter02/traffic-lights-blink/main.go
 
 traffic-lights-pedestrian: 
-	tinygo flash --target=arduino Chapter02/light-button-pedestrian/main.go
+	tinygo flash --target=arduino --scheduler=tasks Chapter02/traffic-lights-pedestrian/main.go
 
 traffic-lights-simple: 
-	tinygo flash --target=arduino Chapter02/light-button-simple/main.go
+	tinygo flash --target=arduino Chapter02/traffic-lights-simple/main.go
 
 writing-to-serial: 
 	tinygo flash --target=arduino Chapter03/writing-to-serial/main.go
