@@ -13,8 +13,6 @@ func main() {
 		blink3(led, 500, 350)
 
 		blink3(led, 1500, 350)
-
-		blink3(led, 500, 350)
 	}
 }
 
