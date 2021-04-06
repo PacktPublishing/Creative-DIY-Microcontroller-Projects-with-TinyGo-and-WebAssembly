@@ -10,12 +10,12 @@ const centerDutyCycle = 1500 * time.Microsecond
 const centerRemainingPeriod = 18500 * time.Microsecond
 
 // left
-const leftDutyCycle = 1000 * time.Microsecond
-const leftRemainingPeriod = 19000 * time.Microsecond
+const leftDutyCycle = 2000 * time.Microsecond
+const leftRemainingPeriod = 18000 * time.Microsecond
 
 // right
-const rightDutyCycle = 2000 * time.Microsecond
-const rightRemainingPeriod = 18000 * time.Microsecond
+const rightDutyCycle = 1000 * time.Microsecond
+const rightRemainingPeriod = 19000 * time.Microsecond
 
 // Driver is used to control a sg90 servomotor.
 type Driver struct {
