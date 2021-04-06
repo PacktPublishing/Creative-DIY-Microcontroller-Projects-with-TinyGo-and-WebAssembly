@@ -28,8 +28,20 @@ writing-to-serial:
 controlling-keypad: 
 	tinygo flash --target=arduino Chapter03/controlling-keypad/main.go
 
+controlling-servo: 
+	tinygo flash --target=arduino Chapter03/controlling-servo/main.go
+
+controlling-servo-pwm: 
+	tinygo flash --target=arduino Chapter03/controlling-servo-pwm/main.go
+
 safety-lock-keypad: 
 	tinygo flash --target=arduino Chapter03/safety-lock-keypad/main.go
+
+safety-lock-keypad-check-key: 
+	tinygo flash --target=arduino Chapter03/safety-lock-keypad-check-key/main.go
+
+safety-lock-keypad-pwm: 
+	tinygo flash --target=arduino Chapter03/safety-lock-keypad-pwm/main.go
 
 soil-moisture-sensor:
 	tinygo flash --target=arduino Chapter04/soil-moisture-sensor/main.go && cat /dev/ttyACM0

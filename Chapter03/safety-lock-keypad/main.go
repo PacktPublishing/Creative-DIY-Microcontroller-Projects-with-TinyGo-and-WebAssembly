@@ -34,32 +34,31 @@ func main() {
 			enteredPasscode += key
 
 			led2.High()
-			time.Sleep(time.Duration(time.Second / 5))
+			time.Sleep(time.Second / 5)
 			led2.Low()
 		}
 
-		if key != "#" {
-			continue
+		if len(enteredPasscode) == len(passcode) {
+			if enteredPasscode == passcode {
+				println("Success")
+				enteredPasscode = ""
+				servoDriver.Right()
+
+				led1.High()
+				time.Sleep(time.Second * 3)
+				led1.Low()
+
+			} else {
+				println("Fail")
+				println("Entered Password: ", enteredPasscode)
+				enteredPasscode = ""
+
+				led2.High()
+				time.Sleep(time.Second * 3)
+				led2.Low()
+			}
 		}
 
-		if enteredPasscode == passcode {
-			println("Success")
-			servoDriver.Right()
-
-			led1.High()
-			time.Sleep(time.Duration(time.Second * 3))
-			led1.Low()
-
-		} else {
-			println("Fail")
-			println("Entered Password: ", enteredPasscode)
-
-			led2.High()
-			time.Sleep(time.Duration(time.Second * 3))
-			led2.Low()
-		}
-
-		enteredPasscode = ""
 		time.Sleep(50 * time.Millisecond)
 	}
 }
