@@ -36,7 +36,7 @@ func (d *Device) Configure() error {
 }
 
 func (d *Device) Right() {
-	d.setDutyCycle(2000)
+	d.setDutyCycle(1000)
 }
 
 func (d *Device) Center() {
@@ -44,7 +44,7 @@ func (d *Device) Center() {
 }
 
 func (d *Device) Left() {
-	d.setDutyCycle(1000)
+	d.setDutyCycle(2000)
 }
 
 // setDutyCycle sets the cycle in microseconds

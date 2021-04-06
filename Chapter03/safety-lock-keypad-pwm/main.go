@@ -41,10 +41,10 @@ func main() {
 		enteredPasscode += key
 
 		led2.High()
-		time.Sleep(time.Second / 5)
+		time.Sleep(200 * time.Millisecond)
 		led2.Low()
 
-		if len(enteredPasscode) == len(passcode) {
+		if len(enteredPasscode) != len(passcode) {
 			continue
 		}
 
@@ -53,7 +53,7 @@ func main() {
 			servoDriver.Right()
 
 			led1.High()
-			time.Sleep(time.Duration(time.Second * 3))
+			time.Sleep(time.Second * 3)
 			led1.Low()
 
 			time.Sleep(time.Second)
@@ -64,7 +64,7 @@ func main() {
 			println("Entered Password: ", enteredPasscode)
 
 			led2.High()
-			time.Sleep(time.Duration(time.Second * 3))
+			time.Sleep(time.Second * 3)
 			led2.Low()
 		}
 
