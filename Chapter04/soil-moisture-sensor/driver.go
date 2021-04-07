@@ -45,21 +45,16 @@ func NewSoilSensor(waterThreshold, dryThreshold uint16, dataPin, voltagePin mach
 
 func (sensor *soilSensor) Get() MoistureLevel {
 	value := sensor.adc.Get()
-
 	switch {
 	case value >= sensor.completelyDryThreshold:
 		return CompletelyDry
-	case value <= sensor.completelyDryThreshold-sensor.category &&
-		value > sensor.completelyDryThreshold-sensor.category*2:
+	case value >= sensor.completelyDryThreshold-sensor.category:
 		return VeryDry
-	case value <= sensor.completelyDryThreshold-sensor.category*2 &&
-		value > sensor.completelyDryThreshold-sensor.category*3:
+	case value >= sensor.completelyDryThreshold-sensor.category*2:
 		return Dry
-	case value <= sensor.completelyDryThreshold-sensor.category*4 &&
-		value > sensor.completelyDryThreshold-sensor.category*5:
+	case value <= sensor.completelyDryThreshold-sensor.category*3:
 		return Wet
-	case value <= sensor.completelyDryThreshold-sensor.category*5 &&
-		value > sensor.completelyDryThreshold-sensor.category*6:
+	case value >= sensor.completelyDryThreshold-sensor.category*5:
 		return VeryWet
 	default:
 		return Water
