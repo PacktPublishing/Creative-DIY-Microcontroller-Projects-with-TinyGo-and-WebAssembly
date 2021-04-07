@@ -30,7 +30,7 @@ func (sensor *waterLevel) IsEmpty() bool {
 
 func (sensor *waterLevel) Configure() {
 	sensor.adc = machine.ADC{Pin: sensor.pin}
-	sensor.adc.Configure()
+	sensor.adc.Configure(machine.ADCConfig{})
 
 	sensor.voltage.Configure(machine.PinConfig{Mode: machine.PinOutput})
 	sensor.voltage.Low()

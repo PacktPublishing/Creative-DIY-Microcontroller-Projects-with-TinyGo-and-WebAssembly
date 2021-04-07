@@ -8,7 +8,7 @@ import (
 func main() {
 	machine.InitADC()
 	soilSensor := machine.ADC{Pin: machine.ADC5}
-	soilSensor.Configure()
+	soilSensor.Configure(machine.ADCConfig{})
 
 	machine.D2.Configure(machine.PinConfig{Mode: machine.PinOutput})
 	machine.D2.High()
