@@ -36,15 +36,19 @@ func main() {
 		}
 		waterLevelSensor.Off()
 
+		println("water not empty")
+
 		soilSensor.On()
 		time.Sleep(100 * time.Millisecond)
 		switch soilSensor.Get() {
 		case soil.CompletelyDry, soil.VeryDry:
 			soilSensor.Off()
+			println("pumping water")
 			pump.Pump(350*time.Millisecond, 3)
 		default:
 			soilSensor.Off()
 			time.Sleep(time.Hour)
+			println("sleeping")
 		}
 	}
 }

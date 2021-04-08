@@ -101,12 +101,13 @@ func main() {
 }
 
 func homeScreen(lcd hd44780i2c.Device) {
-	println("\nexecuting command homescreen\n")
+	println("\r\nexecuting command homescreen\r\n")
 	clearDisplay(lcd)
+	lcd.Home()
 	lcd.Print([]byte(" TinyGo UART \n CLI "))
 }
 
 func clearDisplay(lcd hd44780i2c.Device) {
-	println("\nexecuting command cleardisplay\n")
+	println("\r\nexecuting command cleardisplay\r\n")
 	lcd.ClearDisplay()
 }

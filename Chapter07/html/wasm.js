@@ -5,7 +5,7 @@ var wasm;
 
 var mqtt;
 const host = "127.0.0.1";
-const port = 9001
+const port = 9001;
 
 function onConnect() {
     console.log("Successfully connected to mqtt broker");
@@ -23,18 +23,18 @@ function onConnectionLost(responseObject) {
 function onMessageArrived(message) {
     console.log("onMessageArrived:" + message.payloadString);
 
-    var payload = message.payloadString
+    var payload = message.payloadString;
     if (payload.indexOf("possible storm incoming") !== -1) {
-        alertHandler(payload)
+        alertHandler(payload);
     } else {
-        sensorDataHandler(payload)
+        sensorDataHandler(payload);
     }
 }
 
 function MQTTconnect() {
     console.log("mqtt client: connecting to " + host + ":" + port);
 
-    var cname = "weather-consumer"
+    var cname = "weather-consumer";
     mqtt = new Paho.MQTT.Client(host, port, cname);
     var options = {
         timeout: 3,

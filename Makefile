@@ -44,10 +44,10 @@ safety-lock-keypad-pwm:
 	tinygo flash --target=arduino Chapter03/safety-lock-keypad-pwm/main.go
 
 soil-moisture-sensor:
-	tinygo flash --target=arduino Chapter04/soil-moisture-sensor/main.go && cat /dev/ttyACM0
+	tinygo flash --target=arduino Chapter04/soil-moisture-sensor-example/main.go && cat /dev/ttyACM0
 
 water-level-sensor:
-	tinygo flash --target=arduino Chapter04/water-level-sensor/main.go && cat /dev/ttyACM0
+	tinygo flash --target=arduino Chapter04/water-level-sensor-example/main.go && cat /dev/ttyACM0
 
 buzzer-example: 
 	tinygo flash --target=arduino Chapter04/buzzer-example/main.go
