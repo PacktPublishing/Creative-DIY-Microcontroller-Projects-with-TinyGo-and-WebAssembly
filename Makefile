@@ -88,6 +88,15 @@ game:
 weather:
 	tinygo flash --target=arduino-nano33 Chapter07/weather-station-example/main.go
 
+weather-app:
+	rm -rf Chapter07/html
+	mkdir Chapter07/html
+	tinygo build -o Chapter07/html/wasm.wasm -target wasm -no-debug Chapter07/weather-app/wasm.go
+	cp Chapter07/weather-app/wasm_exec.js Chapter07/html/
+	cp Chapter07/weather-app/wasm.js Chapter07/html/
+	cp Chapter07/weather-app/index.html Chapter07/html/
+	go run Chapter07/wasm-server/main.go
+
 wasm-app:
 	rm -rf Chapter07/html
 	mkdir Chapter07/html
