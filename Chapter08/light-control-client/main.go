@@ -42,7 +42,7 @@ func main() {
 	}
 	println("connected to mqtt broker")
 
-	err = mqttClient.Subscribe("home/control", 0, HandleActionMessage)
+	err = mqttClient.Subscribe("home/bedroom/lights", 0, HandleActionMessage)
 	if err != nil {
 		printError("could not subsribe to topic", err)
 	}
@@ -102,7 +102,6 @@ func controlBedroom(client mqtt.Client, action string) {
 		controlBedroomlights(client, false)
 	default:
 		println("unknown action:", action)
-
 	}
 }
 
