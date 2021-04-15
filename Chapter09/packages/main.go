@@ -1,6 +1,6 @@
 package main
 
-import "github.com/PacktPublishing/Programming-Microcontrollers-and-WebAssembly-with-TinyGo/Chapter-Appendix/packages/mypackage"
+import "github.com/PacktPublishing/Creative-DIY-Microcontroller-Projects-with-TinyGo-and-WebAssembly/Chapter09/packages/mypackage"
 
 func main() {
 	println(mypackage.HelloWorld)
