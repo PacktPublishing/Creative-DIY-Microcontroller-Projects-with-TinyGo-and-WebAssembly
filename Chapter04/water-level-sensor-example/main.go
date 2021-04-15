@@ -4,7 +4,7 @@ import (
 	"machine"
 	"time"
 
-	waterlevel "github.com/PacktPublishing/Programming-Microcontrollers-and-WebAssembly-with-TinyGo/Chapter04/water-level-sensor"
+	waterlevel "github.com/PacktPublishing/Creative-DIY-Microcontroller-Projects-with-TinyGo-and-WebAssembly/Chapter04/water-level-sensor"
 )
 
 func main() {

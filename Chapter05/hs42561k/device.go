@@ -3,7 +3,7 @@ package hs42561k
 import (
 	"errors"
 
-	"github.com/PacktPublishing/Programming-Microcontrollers-and-WebAssembly-with-TinyGo/Chapter05/max7219spi"
+	"github.com/PacktPublishing/Creative-DIY-Microcontroller-Projects-with-TinyGo-and-WebAssembly/Chapter05/max7219spi"
 )
 
 type Device interface {

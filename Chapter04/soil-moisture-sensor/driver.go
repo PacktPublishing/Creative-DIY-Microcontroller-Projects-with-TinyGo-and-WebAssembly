@@ -25,11 +25,11 @@ type MoistureLevel uint8
 
 const (
 	CompletelyDry MoistureLevel = iota
-	VeryDry       MoistureLevel = iota
-	Dry           MoistureLevel = iota
-	Wet           MoistureLevel = iota
-	VeryWet       MoistureLevel = iota
-	Water         MoistureLevel = iota
+	VeryDry
+	Dry
+	Wet
+	VeryWet
+	Water
 )
 
 func NewSoilSensor(waterThreshold, dryThreshold uint16, dataPin, voltagePin machine.Pin) SoilSensor {
@@ -54,7 +54,7 @@ func (sensor *soilSensor) Get() MoistureLevel {
 		return Dry
 	case value <= sensor.completelyDryThreshold-sensor.category*3:
 		return Wet
-	case value >= sensor.completelyDryThreshold-sensor.category*5:
+	case value >= sensor.completelyDryThreshold-sensor.category*4:
 		return VeryWet
 	default:
 		return Water

@@ -4,8 +4,8 @@ import (
 	"time"
 
 	"github.com/Nerzal/tinydom"
-	"github.com/PacktPublishing/Programming-Microcontrollers-and-WebAssembly-with-TinyGo/Chapter08/light-control/dashboard"
-	"github.com/PacktPublishing/Programming-Microcontrollers-and-WebAssembly-with-TinyGo/Chapter08/light-control/login"
+	"github.com/PacktPublishing/Creative-DIY-Microcontroller-Projects-with-TinyGo-and-WebAssembly/Chapter08/light-control/dashboard"
+	"github.com/PacktPublishing/Creative-DIY-Microcontroller-Projects-with-TinyGo-and-WebAssembly/Chapter08/light-control/login"
 )
 
 var window = tinydom.GetWindow()

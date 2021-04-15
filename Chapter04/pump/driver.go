@@ -23,7 +23,9 @@ func NewPump(pin machine.Pin) Pump {
 }
 
 func (pump *pump) Configure() {
-	pump.pin.Configure(machine.PinConfig{Mode: machine.PinOutput})
+	pump.pin.Configure(machine.PinConfig{
+		Mode: machine.PinOutput,
+	})
 }
 
 func (pump *pump) Pump(duration time.Duration, iterations uint8) {

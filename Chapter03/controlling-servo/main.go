@@ -3,7 +3,7 @@ package main
 import (
 	"machine"
 
-	"github.com/PacktPublishing/Programming-Microcontrollers-and-WebAssembly-with-TinyGo/Chapter03/servo"
+	"github.com/PacktPublishing/Creative-DIY-Microcontroller-Projects-with-TinyGo-and-WebAssembly/Chapter03/servo"
 )
 
 func main() {

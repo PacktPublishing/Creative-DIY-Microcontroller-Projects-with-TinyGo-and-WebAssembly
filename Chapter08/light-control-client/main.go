@@ -6,8 +6,8 @@ import (
 	"time"
 
 	"github.com/Nerzal/drivers/net/mqtt"
-	mqttclient "github.com/PacktPublishing/Programming-Microcontrollers-and-WebAssembly-with-TinyGo/Chapter07/mqtt-client"
-	"github.com/PacktPublishing/Programming-Microcontrollers-and-WebAssembly-with-TinyGo/Chapter07/wifi"
+	mqttclient "github.com/PacktPublishing/Creative-DIY-Microcontroller-Projects-with-TinyGo-and-WebAssembly/Chapter07/mqtt-client"
+	"github.com/PacktPublishing/Creative-DIY-Microcontroller-Projects-with-TinyGo-and-WebAssembly/Chapter07/wifi"
 )
 
 const ssid = ""

@@ -9,7 +9,7 @@ import (
 	"github.com/Nerzal/tinydom"
 	"github.com/Nerzal/tinydom/elements/input"
 	"github.com/Nerzal/tinydom/elements/table"
-	"github.com/PacktPublishing/Programming-Microcontrollers-and-WebAssembly-with-TinyGo/Chapter08/light-control/login"
+	"github.com/PacktPublishing/Creative-DIY-Microcontroller-Projects-with-TinyGo-and-WebAssembly/Chapter08/light-control/login"
 )
 
 var doc = tinydom.GetDocument()
