@@ -2,6 +2,12 @@
 
 Creative DIY Microcontroller Projects with TinyGo and WebAssembly, published by Packt
 
+This is the code repository for [Creative DIY Microcontroller Projects with TinyGo and WebAssembly](https://www.packtpub.com/in/iot-hardware/creative-diy-microcontroller-projects-with-tinygo-and-webassembly?utm_source=github&utm_medium=repository&utm_campaign=), published by Packt.
+
+<a href="https://www.packtpub.com/in/iot-hardware/creative-diy-microcontroller-projects-with-tinygo-and-webassembly?utm_source=github&utm_medium=repository&utm_campaign="><img src="https://static.packt-cdn.com/products/9781800560208/cover/smaller" alt="" height="256px" align="right"></a>
+
+**A practical guide to building embedded applications for low-powered devices, IoT, and home automation**
+
 ## Required Software
 
 [Git](https://git-scm.com/)
@@ -87,12 +93,6 @@ eclipse-mosquitto
  For later starts just use:
 
  > docker start mosquitto
- 
-<a href="https://www.packtpub.com/in/iot-hardware/creative-diy-microcontroller-projects-with-tinygo-and-webassembly?utm_source=github&utm_medium=repository&utm_campaign="><img src="https://static.packt-cdn.com/products/9781800560208/cover/smaller" alt="" height="256px" align="right"></a>
-
-This is the code repository for [Creative DIY Microcontroller Projects with TinyGo and WebAssembly](https://www.packtpub.com/in/iot-hardware/creative-diy-microcontroller-projects-with-tinygo-and-webassembly?utm_source=github&utm_medium=repository&utm_campaign=), published by Packt.
-
-**A practical guide to building embedded applications for low-powered devices, IoT, and home automation**
 
 ## What is this book about?
 While often considered a fast and compact programming language, Go usually creates large executables that are difficult to run on low-memory or low-powered devices such as microcontrollers or IoT. TinyGo is a new compiler that allows developers to compile their programs for such low-powered devices. As TinyGo supports all the standard features of the Go programming language, you won't have to tweak the code to fit on the microcontroller.
