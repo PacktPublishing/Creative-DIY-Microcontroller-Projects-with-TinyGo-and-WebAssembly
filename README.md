@@ -144,6 +144,3 @@ We also provide a PDF file that has color images of the screenshots/diagrams use
 
 ## Get to Know the Author
 **Tobias Theel** works as Technical Lead and DevOps for German fintech startup fino and since 2020 also for regtech startup ClariLab. As a software architect and particular expert for Go and TinyGo alongside C# and Java, he is iSAQB certified. Theel prepared the base for the SPI support on the Arduino UNO, wrote the tinydom library, which can be used to manipulate the DOM while being fully compatible with TinyGo. He also contributes to the TinyGo drivers repository by adding drivers for new devices. Theel is among the top 10% answerers in C# & Unity3D, as well as the top 20% answerers in .NET, Go, and Visual Studio on Stack Overflow. As a speaker at tech talks and participant in hackathons, Theel shares his knowledge of software development.
-
-### Suggestions and Feedback
-[Click here](https://docs.google.com/forms/d/e/1FAIpQLSdy7dATC6QmEL81FIUuymZ0Wy9vH1jHkvpY57OiMeKGqib_Ow/viewform) if you have any feedback or suggestions.
