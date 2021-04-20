@@ -2,9 +2,11 @@
 
 Creative DIY Microcontroller Projects with TinyGo and WebAssembly, published by Packt
 
-This is the code repository for [Creative DIY Microcontroller Projects with TinyGo and WebAssembly](https://www.packtpub.com/in/iot-hardware/creative-diy-microcontroller-projects-with-tinygo-and-webassembly?utm_source=github&utm_medium=repository&utm_campaign=), published by Packt.
 
 <a href="https://www.packtpub.com/in/iot-hardware/creative-diy-microcontroller-projects-with-tinygo-and-webassembly?utm_source=github&utm_medium=repository&utm_campaign="><img src="https://static.packt-cdn.com/products/9781800560208/cover/smaller" alt="" height="256px" align="right"></a>
+
+This is the code repository for [Creative DIY Microcontroller Projects with TinyGo and WebAssembly](https://www.packtpub.com/in/iot-hardware/creative-diy-microcontroller-projects-with-tinygo-and-webassembly?utm_source=github&utm_medium=repository&utm_campaign=), published by Packt.
+
 
 **A practical guide to building embedded applications for low-powered devices, IoT, and home automation**
 
